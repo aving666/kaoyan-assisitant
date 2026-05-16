@@ -27,7 +27,11 @@
       --control-bg: #ffffff;
       --control-text: #172033;
       --bg-image: none;
-      --bg-overlay: rgba(247, 248, 250, 0.88);
+      --bg-overlay-rgb: 247, 248, 250;
+      --bg-mask: 0.82;
+      --bg-size: cover;
+      --bg-position-x: 50%;
+      --bg-position-y: 50%;
       --panel-glass: rgba(255, 255, 255, 0.86);
       --shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
       --radius: 8px;
@@ -48,7 +52,7 @@
       --pink-soft: #f8e2ec;
       --purple: #64748b;
       --purple-soft: #e8edf3;
-      --bg-overlay: rgba(238, 247, 241, 0.88);
+      --bg-overlay-rgb: 238, 247, 241;
     }
 
     body[data-theme="sunrise"] {
@@ -66,7 +70,7 @@
       --pink-soft: #fbe2ec;
       --purple: #7856b8;
       --purple-soft: #efe8fb;
-      --bg-overlay: rgba(255, 248, 238, 0.88);
+      --bg-overlay-rgb: 255, 248, 238;
     }
 
     body[data-theme="ocean"] {
@@ -84,7 +88,7 @@
       --pink-soft: #f8e1ef;
       --purple: #4f64b5;
       --purple-soft: #e6ebff;
-      --bg-overlay: rgba(238, 248, 251, 0.88);
+      --bg-overlay-rgb: 238, 248, 251;
     }
 
     body[data-theme="berry"] {
@@ -102,7 +106,7 @@
       --pink-soft: #fbe0ee;
       --purple: #7c3fb0;
       --purple-soft: #f1e5fb;
-      --bg-overlay: rgba(251, 244, 248, 0.88);
+      --bg-overlay-rgb: 251, 244, 248;
     }
 
     body[data-theme="mint"] {
@@ -120,7 +124,7 @@
       --pink-soft: #f7e2ef;
       --purple: #5f64b8;
       --purple-soft: #e9ebff;
-      --bg-overlay: rgba(240, 250, 248, 0.88);
+      --bg-overlay-rgb: 240, 250, 248;
     }
 
     * {
@@ -130,10 +134,11 @@
     body {
       margin: 0;
       background-color: var(--bg);
-      background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), var(--bg-image);
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+      background-image: linear-gradient(rgba(var(--bg-overlay-rgb), var(--bg-mask)), rgba(var(--bg-overlay-rgb), var(--bg-mask))), var(--bg-image);
+      background-size: auto, var(--bg-size);
+      background-position: center, var(--bg-position-x) var(--bg-position-y);
+      background-repeat: no-repeat, no-repeat;
+      background-attachment: fixed, fixed;
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
       line-height: 1.55;
@@ -192,6 +197,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .stage-toggle {
@@ -218,16 +224,36 @@
       box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
     }
 
+    .layout-btn {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--control-bg);
+      color: #334155;
+      padding: 0 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .layout-reset {
+      display: none;
+    }
+
+    body.layout-editing .layout-reset {
+      display: inline-flex;
+      align-items: center;
+    }
+
     .dashboard {
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
       margin-bottom: 18px;
     }
 
     .appearance-panel {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-columns: auto minmax(0, 1fr) auto auto auto;
       align-items: center;
       gap: 12px;
       background: var(--panel);
@@ -287,12 +313,156 @@
       display: none;
     }
 
+    .bg-editor {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .bg-editor label {
+      display: grid;
+      gap: 6px;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .bg-editor input[type="range"] {
+      width: 100%;
+      accent-color: var(--blue);
+    }
+
+    .bg-editor select {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: var(--control-bg);
+      color: var(--control-text);
+      padding: 7px 9px;
+    }
+
+    .bg-value {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 80;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.42);
+    }
+
+    .modal-backdrop.active {
+      display: grid;
+    }
+
+    .modal {
+      width: min(680px, 100%);
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+      padding: 18px;
+    }
+
+    body.has-bg .modal {
+      background: var(--panel-glass);
+      backdrop-filter: blur(14px);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .modal-head strong {
+      font-size: 18px;
+      color: #172033;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
     .panel {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 18px;
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+    }
+
+    .module-zone {
+      min-height: 24px;
+      position: relative;
+    }
+
+    .module-zone.drag-over {
+      outline: 2px dashed var(--blue);
+      outline-offset: 4px;
+      border-radius: 10px;
+    }
+
+    body.layout-editing .module-zone {
+      padding: 30px 10px 10px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.36);
+    }
+
+    body.layout-editing .module-zone::before {
+      content: attr(data-zone-label);
+      position: absolute;
+      left: 10px;
+      top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      pointer-events: none;
+    }
+
+    .module-card {
+      transition: opacity 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .module-card.dragging {
+      opacity: 0.55;
+      transform: scale(0.99);
+    }
+
+    .module-handle {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 auto;
+      display: none;
+      place-items: center;
+      border-radius: 6px;
+      background: #eef2f7;
+      color: #475569;
+      font-size: 15px;
+      line-height: 1;
+      cursor: grab;
+    }
+
+    body.layout-editing .module-handle {
+      display: inline-grid;
+    }
+
+    .module-handle:active {
+      cursor: grabbing;
     }
 
     .metric {
@@ -436,6 +606,10 @@
       gap: 12px;
     }
 
+    .focus-panel .timer {
+      margin-bottom: 14px;
+    }
+
     .timer-face {
       display: flex;
       align-items: center;
@@ -527,6 +701,11 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
       align-items: start;
+    }
+
+    .main-wide {
+      display: grid;
+      gap: 14px;
     }
 
     .stage-list {
@@ -1182,10 +1361,6 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .dashboard .timer-panel {
-        grid-column: 1 / -1;
-      }
-
       .subject-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1215,6 +1390,14 @@
       .appearance-panel {
         grid-template-columns: 1fr;
         align-items: stretch;
+      }
+
+      .bg-editor {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-actions {
+        flex-direction: column;
       }
 
       .stage {
@@ -1271,6 +1454,8 @@
       </div>
       <div class="header-actions">
         <button class="icon-btn stage-toggle" title="展开或收起全部阶段" onclick="toggleAll()">•••</button>
+        <button class="layout-btn" id="layoutToggleBtn" onclick="toggleLayoutEdit()">布局编辑</button>
+        <button class="layout-btn layout-reset" onclick="resetModuleLayout()">重置布局</button>
         <button class="icon-btn" title="清空今日数据" onclick="clearToday()">↺</button>
       </div>
     </header>
@@ -1282,11 +1467,12 @@
         上传背景
         <input type="file" id="bgUpload" accept="image/*" onchange="uploadBackground(event)" />
       </label>
+      <button class="ghost-btn" onclick="openBackgroundEditor()">编辑背景</button>
       <button class="ghost-btn" onclick="clearBackground()">清除背景</button>
     </section>
 
-    <section class="dashboard" aria-label="复习看板">
-      <article class="panel metric">
+    <section class="dashboard module-zone" data-zone-id="dashboard" data-zone-label="顶部看板" aria-label="复习看板">
+      <article class="panel metric module-card" data-module-id="examCountdown">
         <div class="panel-title">考试倒计时</div>
         <div class="countdown">
           <span class="days" id="daysLeft">0</span>
@@ -1298,7 +1484,7 @@
         </div>
       </article>
 
-      <article class="panel metric">
+      <article class="panel metric module-card" data-module-id="currentStage">
         <div class="panel-title">当前阶段</div>
         <div class="current-stage">
           <span class="stage-pill" id="currentStagePill"></span>
@@ -1316,31 +1502,6 @@
           <div class="mini-stat">
             <strong id="latestScore">--</strong>
             <span>最近模考</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="panel timer-panel">
-        <div class="panel-title">专注计时</div>
-        <div class="timer">
-          <select class="timer-select" id="timerSubject" onchange="saveTimerSubject()">
-            <option>数学</option>
-            <option>英语</option>
-            <option>政治</option>
-            <option>专业课</option>
-          </select>
-          <div class="preset-row" id="presetRow"></div>
-          <div class="custom-timer">
-            <input type="number" id="customMinutes" min="1" max="300" placeholder="自定义分钟数" />
-            <button class="ghost-btn" onclick="setCustomPreset()">设置时长</button>
-          </div>
-          <div class="timer-face">
-            <span class="timer-time" id="timerTime">50:00</span>
-            <button class="ghost-btn" onclick="finishFocus()">完成一轮</button>
-          </div>
-          <div class="timer-controls">
-            <button class="primary-btn" id="startPauseBtn" onclick="toggleTimer()">开始</button>
-            <button class="ghost-btn" onclick="resetTimer()">重置</button>
           </div>
         </div>
       </article>
@@ -1366,8 +1527,8 @@
 
     <section class="workspace">
       <section class="main-stack">
-        <div class="main-grid">
-          <article class="panel">
+        <div class="main-grid module-zone" data-zone-id="mainGrid" data-zone-label="主功能区">
+          <article class="panel module-card" data-module-id="dailyTasks">
             <div class="panel-title">
               <span>今日清单</span>
               <span id="taskPercent">0%</span>
@@ -1386,32 +1547,35 @@
             <div class="task-list" id="taskList"></div>
           </article>
 
-          <article class="panel focus-panel">
-            <div class="panel-title">专注统计</div>
-            <div class="focus-stat-grid">
-              <div class="focus-stat-card">
-                <strong id="focusTodayTotal">0</strong>
-                <span>今日分钟</span>
+          <article class="panel focus-panel module-card" data-module-id="focusTimer">
+            <div class="panel-title">专注计时与统计</div>
+            <div class="timer">
+              <select class="timer-select" id="timerSubject" onchange="saveTimerSubject()">
+                <option>数学</option>
+                <option>英语</option>
+                <option>政治</option>
+                <option>专业课</option>
+              </select>
+              <div class="preset-row" id="presetRow"></div>
+              <div class="custom-timer">
+                <input type="number" id="customMinutes" min="1" max="300" placeholder="自定义分钟数" />
+                <button class="ghost-btn" onclick="setCustomPreset()">设置时长</button>
               </div>
-              <div class="focus-stat-card">
-                <strong id="focusWeekTotal">0</strong>
-                <span>近7天</span>
+              <div class="timer-face">
+                <span class="timer-time" id="timerTime">50:00</span>
+                <button class="ghost-btn" onclick="finishFocus()">完成一轮</button>
               </div>
-              <div class="focus-stat-card">
-                <strong id="focusSessionCount">0</strong>
-                <span>记录数</span>
+              <div class="timer-controls">
+                <button class="primary-btn" id="startPauseBtn" onclick="toggleTimer()">开始</button>
+                <button class="ghost-btn" onclick="resetTimer()">重置</button>
+                <button class="ghost-btn" onclick="openFocusStatsModal()">专注情况</button>
               </div>
             </div>
-            <div class="focus-section-label">近7天专注趋势</div>
-            <div class="focus-chart" id="focusWeekChart"></div>
-            <div class="focus-section-label">今日分科</div>
-            <div class="focus-subject-list" id="focusSubjectStats"></div>
-            <div class="focus-section-label">最近记录</div>
-            <div class="focus-session-list" id="focusSessionList"></div>
           </article>
         </div>
 
-        <article class="panel">
+        <div class="main-wide module-zone" data-zone-id="mainWide" data-zone-label="主内容区">
+        <article class="panel module-card" data-module-id="wrongUpload">
           <div class="panel-title">添加错题</div>
           <div class="wrong-upload-form">
             <div class="wrong-upload-main-form">
@@ -1439,7 +1603,7 @@
           </div>
         </article>
 
-        <article class="panel">
+        <article class="panel module-card" data-module-id="wrongBank">
           <div class="panel-title">
             <span>错题库与 PDF</span>
             <span id="wrongSelectedCount">已选 0 题</span>
@@ -1451,12 +1615,13 @@
           </div>
           <div class="wrong-upload-list" id="wrongUploadList"></div>
         </article>
+        </div>
 
         <section class="stage-list" id="stageList" aria-label="阶段计划"></section>
       </section>
 
-      <aside class="side-stack">
-        <article class="panel">
+      <aside class="side-stack module-zone" data-zone-id="sideStack" data-zone-label="侧边栏">
+        <article class="panel module-card" data-module-id="wrongStats">
           <div class="panel-title">
             <span>错题统计</span>
             <button class="ghost-btn" onclick="resetWrong()">清零</button>
@@ -1464,7 +1629,7 @@
           <div class="wrong-grid" id="wrongGrid"></div>
         </article>
 
-        <article class="panel">
+        <article class="panel module-card" data-module-id="mockScores">
           <div class="panel-title">模考记录</div>
           <div class="score-form">
             <input type="date" id="scoreDate" />
@@ -1487,6 +1652,77 @@
       </aside>
     </section>
   </main>
+
+  <div class="modal-backdrop" id="backgroundModal" onclick="handleBackgroundModalClick(event)">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="backgroundModalTitle">
+      <div class="modal-head">
+        <strong id="backgroundModalTitle">编辑背景</strong>
+        <button class="icon-btn" title="关闭" onclick="closeBackgroundEditor()">×</button>
+      </div>
+      <div class="bg-editor" id="bgEditor">
+        <label>
+          背景不透明度 <span class="bg-value" id="bgOpacityValue">18%</span>
+          <input type="range" id="bgOpacity" min="0" max="100" step="1" oninput="updateBackgroundSetting('opacity', this.value)" />
+        </label>
+        <label>
+          裁切方式
+          <select id="bgFit" onchange="updateBackgroundSetting('fit', this.value)">
+            <option value="cover">填充裁切</option>
+            <option value="contain">完整显示</option>
+            <option value="custom">自定义缩放</option>
+          </select>
+        </label>
+        <label>
+          裁切缩放 <span class="bg-value" id="bgZoomValue">120%</span>
+          <input type="range" id="bgZoom" min="80" max="220" step="5" oninput="updateBackgroundSetting('zoom', this.value)" />
+        </label>
+        <label>
+          水平位置 <span class="bg-value" id="bgPosXValue">50%</span>
+          <input type="range" id="bgPosX" min="0" max="100" step="1" oninput="updateBackgroundSetting('posX', this.value)" />
+        </label>
+        <label>
+          垂直位置 <span class="bg-value" id="bgPosYValue">50%</span>
+          <input type="range" id="bgPosY" min="0" max="100" step="1" oninput="updateBackgroundSetting('posY', this.value)" />
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="ghost-btn" onclick="resetBackgroundEdits()">重置编辑</button>
+        <button class="primary-btn" onclick="closeBackgroundEditor()">完成</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="focusStatsModal" onclick="handleFocusStatsModalClick(event)">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="focusStatsModalTitle">
+      <div class="modal-head">
+        <strong id="focusStatsModalTitle">专注情况</strong>
+        <button class="icon-btn" title="关闭" onclick="closeFocusStatsModal()">×</button>
+      </div>
+      <div class="focus-stat-grid">
+        <div class="focus-stat-card">
+          <strong id="focusTodayTotal">0</strong>
+          <span>今日分钟</span>
+        </div>
+        <div class="focus-stat-card">
+          <strong id="focusWeekTotal">0</strong>
+          <span>近7天</span>
+        </div>
+        <div class="focus-stat-card">
+          <strong id="focusSessionCount">0</strong>
+          <span>记录数</span>
+        </div>
+      </div>
+      <div class="focus-section-label">近7天专注趋势</div>
+      <div class="focus-chart" id="focusWeekChart"></div>
+      <div class="focus-section-label">今日分科</div>
+      <div class="focus-subject-list" id="focusSubjectStats"></div>
+      <div class="focus-section-label">最近记录</div>
+      <div class="focus-session-list" id="focusSessionList"></div>
+      <div class="modal-actions">
+        <button class="primary-btn" onclick="closeFocusStatsModal()">完成</button>
+      </div>
+    </section>
+  </div>
 
   <button class="floating" title="跳到下一阶段" onclick="nextStage()">↓</button>
 
@@ -1658,6 +1894,13 @@
       "政治套卷": ["单选题", "多选题", "分析题"],
       "专业课套卷": ["名词解释", "简答题", "论述题"]
     };
+    const defaultBackgroundSettings = {
+      opacity: 18,
+      fit: "cover",
+      zoom: 120,
+      posX: 50,
+      posY: 50
+    };
 
     function formatLocalDate(date) {
       const year = date.getFullYear();
@@ -1696,8 +1939,26 @@
     const timerSubject = document.getElementById("timerSubject");
     const customMinutes = document.getElementById("customMinutes");
     const themeOptions = document.getElementById("themeOptions");
+    const bgOpacity = document.getElementById("bgOpacity");
+    const bgOpacityValue = document.getElementById("bgOpacityValue");
+    const bgFit = document.getElementById("bgFit");
+    const bgZoom = document.getElementById("bgZoom");
+    const bgZoomValue = document.getElementById("bgZoomValue");
+    const bgPosX = document.getElementById("bgPosX");
+    const bgPosXValue = document.getElementById("bgPosXValue");
+    const bgPosY = document.getElementById("bgPosY");
+    const bgPosYValue = document.getElementById("bgPosYValue");
+    const backgroundModal = document.getElementById("backgroundModal");
+    const focusStatsModal = document.getElementById("focusStatsModal");
+    const layoutToggleBtn = document.getElementById("layoutToggleBtn");
 
     const dateStageIndex = getStageByDate();
+    const defaultModuleLayout = {
+      dashboard: ["examCountdown", "currentStage"],
+      mainGrid: ["dailyTasks", "focusTimer"],
+      mainWide: ["wrongUpload", "wrongBank"],
+      sideStack: ["wrongStats", "mockScores"]
+    };
     let selectedStageIndex = dateStageIndex;
     let activePreset = Number(localStorage.getItem(`${storePrefix}:timerPreset`) || 50);
     if (!Number.isFinite(activePreset) || activePreset < 1) activePreset = 50;
@@ -1708,6 +1969,7 @@
     let focusStartedSeconds = timerSeconds;
     let focusSessionStartAt = null;
     let wrongDbPromise = null;
+    let mediaDbPromise = null;
     let pendingWrongFiles = [];
     let pendingWrongPreviewUrls = [];
     let selectedWrongIds = new Set();
@@ -1753,32 +2015,210 @@
       renderThemeOptions();
     }
 
+    function getBackgroundSettings() {
+      return {
+        ...defaultBackgroundSettings,
+        ...getStorage("backgroundSettings", {})
+      };
+    }
+
+    function applyBackgroundSettings(settings = getBackgroundSettings()) {
+      const clampNumber = (value, fallback, min, max) => {
+        const number = Number(value);
+        return Number.isFinite(number) ? Math.min(max, Math.max(min, number)) : fallback;
+      };
+      const opacity = clampNumber(settings.opacity, defaultBackgroundSettings.opacity, 0, 100);
+      const zoom = clampNumber(settings.zoom, defaultBackgroundSettings.zoom, 80, 220);
+      const posX = clampNumber(settings.posX, defaultBackgroundSettings.posX, 0, 100);
+      const posY = clampNumber(settings.posY, defaultBackgroundSettings.posY, 0, 100);
+      const fit = ["cover", "contain", "custom"].includes(settings.fit) ? settings.fit : "cover";
+      const imageSize = fit === "custom" ? `${zoom}% auto` : fit;
+
+      document.documentElement.style.setProperty("--bg-mask", (1 - opacity / 100).toFixed(2));
+      document.documentElement.style.setProperty("--bg-size", imageSize);
+      document.documentElement.style.setProperty("--bg-position-x", `${posX}%`);
+      document.documentElement.style.setProperty("--bg-position-y", `${posY}%`);
+
+      bgOpacity.value = opacity;
+      bgOpacityValue.textContent = `${opacity}%`;
+      bgFit.value = fit;
+      bgZoom.value = zoom;
+      bgZoomValue.textContent = `${zoom}%`;
+      bgPosX.value = posX;
+      bgPosXValue.textContent = `${posX}%`;
+      bgPosY.value = posY;
+      bgPosYValue.textContent = `${posY}%`;
+    }
+
+    function updateBackgroundSetting(key, value) {
+      const settings = getBackgroundSettings();
+      settings[key] = key === "fit" ? value : Number(value);
+      setStorage("backgroundSettings", settings);
+      applyBackgroundSettings(settings);
+    }
+
+    function resetBackgroundEdits() {
+      setStorage("backgroundSettings", defaultBackgroundSettings);
+      applyBackgroundSettings(defaultBackgroundSettings);
+    }
+
+    function openBackgroundEditor() {
+      applyBackgroundSettings();
+      backgroundModal.classList.add("active");
+    }
+
+    function closeBackgroundEditor() {
+      backgroundModal.classList.remove("active");
+    }
+
+    function handleBackgroundModalClick(event) {
+      if (event.target === backgroundModal) closeBackgroundEditor();
+    }
+
+    function openFocusStatsModal() {
+      renderFocusStats();
+      focusStatsModal.classList.add("active");
+    }
+
+    function closeFocusStatsModal() {
+      focusStatsModal.classList.remove("active");
+    }
+
+    function handleFocusStatsModalClick(event) {
+      if (event.target === focusStatsModal) closeFocusStatsModal();
+    }
+
     function applyBackground(imageData) {
       const hasImage = Boolean(imageData);
       document.documentElement.style.setProperty("--bg-image", hasImage ? `url("${imageData}")` : "none");
       document.body.classList.toggle("has-bg", hasImage);
     }
 
-    function uploadBackground(event) {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        const imageData = reader.result;
-        try {
-          localStorage.setItem(`${storePrefix}:background`, imageData);
-          applyBackground(imageData);
-        } catch (error) {
-          alert("图片较大，浏览器本地存储空间不够。可以换一张更小的图片。");
-        }
-      };
-      reader.readAsDataURL(file);
-      event.target.value = "";
+    function openMediaDb() {
+      if (mediaDbPromise) return mediaDbPromise;
+      mediaDbPromise = new Promise((resolve, reject) => {
+        const request = indexedDB.open("kaoyan-media-store", 1);
+        request.onupgradeneeded = () => {
+          const db = request.result;
+          if (!db.objectStoreNames.contains("media")) {
+            db.createObjectStore("media", { keyPath: "id" });
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      return mediaDbPromise;
     }
 
-    function clearBackground() {
+    async function putMedia(item) {
+      const db = await openMediaDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction("media", "readwrite");
+        tx.objectStore("media").put(item);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function getMedia(id) {
+      const db = await openMediaDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction("media", "readonly");
+        const request = tx.objectStore("media").get(id);
+        request.onsuccess = () => resolve(request.result || null);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function deleteMedia(id) {
+      const db = await openMediaDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction("media", "readwrite");
+        tx.objectStore("media").delete(id);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    function compressImageData(file, options = {}) {
+      const maxSide = options.maxSide || 1200;
+      const quality = options.quality || 0.78;
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(reader.error);
+        reader.onload = () => {
+          const img = new Image();
+          img.onerror = () => reject(new Error("图片读取失败"));
+          img.onload = () => {
+            const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+            const width = Math.max(1, Math.round(img.width * scale));
+            const height = Math.max(1, Math.round(img.height * scale));
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL("image/jpeg", quality));
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function uploadBackground(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      event.target.value = "";
+      try {
+        const imageData = await compressImageData(file, { maxSide: 1920, quality: 0.72 });
+        await putMedia({
+          id: "background",
+          image: imageData,
+          updatedAt: Date.now()
+        });
+        localStorage.removeItem(`${storePrefix}:background`);
+        applyBackground(imageData);
+        applyBackgroundSettings();
+      } catch (error) {
+        alert("背景图保存失败。可以换一张图片再试，或检查浏览器是否允许本地存储。");
+      }
+    }
+
+    async function clearBackground() {
       localStorage.removeItem(`${storePrefix}:background`);
+      try {
+        await deleteMedia("background");
+      } catch (error) {
+        // Clearing the visible background is more important than cleanup failure.
+      }
       applyBackground("");
+    }
+
+    async function loadSavedBackground() {
+      try {
+        const media = await getMedia("background");
+        if (media && media.image) {
+          applyBackground(media.image);
+          return;
+        }
+
+        const legacyBackground = localStorage.getItem(`${storePrefix}:background`);
+        if (legacyBackground) {
+          await putMedia({
+            id: "background",
+            image: legacyBackground,
+            updatedAt: Date.now()
+          });
+          localStorage.removeItem(`${storePrefix}:background`);
+          applyBackground(legacyBackground);
+        }
+      } catch (error) {
+        const legacyBackground = localStorage.getItem(`${storePrefix}:background`);
+        if (legacyBackground) applyBackground(legacyBackground);
+      }
     }
 
     function openWrongDb() {
@@ -1848,30 +2288,7 @@
     }
 
     function compressImageFile(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = () => reject(reader.error);
-        reader.onload = () => {
-          const img = new Image();
-          img.onerror = () => reject(new Error("图片读取失败"));
-          img.onload = () => {
-            const maxSide = 1200;
-            const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
-            const width = Math.max(1, Math.round(img.width * scale));
-            const height = Math.max(1, Math.round(img.height * scale));
-            const canvas = document.createElement("canvas");
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext("2d");
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, width, height);
-            ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL("image/jpeg", 0.78));
-          };
-          img.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-      });
+      return compressImageData(file, { maxSide: 1200, quality: 0.78 });
     }
 
     function selectWrongFiles(event) {
@@ -2542,6 +2959,168 @@
       renderFocusStats();
     }
 
+    function initModuleDragging() {
+      document.querySelectorAll(".module-card").forEach(module => {
+        const title = module.querySelector(".panel-title");
+        if (title && !title.querySelector(".module-handle")) {
+          const handle = document.createElement("button");
+          handle.type = "button";
+          handle.className = "module-handle";
+          handle.draggable = false;
+          handle.title = "拖动模块";
+          handle.textContent = "↕";
+          title.insertBefore(handle, title.firstChild);
+
+          handle.addEventListener("dragstart", event => {
+            if (!document.body.classList.contains("layout-editing")) {
+              event.preventDefault();
+              return;
+            }
+            module.classList.add("dragging");
+            event.dataTransfer.effectAllowed = "move";
+            event.dataTransfer.setData("text/plain", module.dataset.moduleId);
+          });
+
+          handle.addEventListener("dragend", () => {
+            module.classList.remove("dragging");
+            document.querySelectorAll(".module-zone").forEach(zone => zone.classList.remove("drag-over"));
+            saveModuleLayout();
+          });
+        }
+      });
+
+      document.querySelectorAll(".module-zone").forEach(zone => {
+        if (zone.dataset.dragReady === "1") return;
+        zone.dataset.dragReady = "1";
+
+        zone.addEventListener("dragover", event => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (!document.body.classList.contains("layout-editing")) return;
+          const dragging = document.querySelector(".module-card.dragging");
+          if (!dragging) return;
+          zone.classList.add("drag-over");
+          const afterElement = getDragAfterElement(zone, event.clientX, event.clientY);
+          if (afterElement) {
+            zone.insertBefore(dragging, afterElement);
+          } else {
+            zone.appendChild(dragging);
+          }
+        });
+
+        zone.addEventListener("dragleave", event => {
+          if (!zone.contains(event.relatedTarget)) zone.classList.remove("drag-over");
+        });
+
+        zone.addEventListener("drop", event => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (!document.body.classList.contains("layout-editing")) return;
+          zone.classList.remove("drag-over");
+          saveModuleLayout();
+        });
+      });
+    }
+
+    function getDragAfterElement(container, x, y) {
+      const elements = [...container.children].filter(child =>
+        child.classList && child.classList.contains("module-card") && !child.classList.contains("dragging")
+      ).sort((a, b) => {
+        const boxA = a.getBoundingClientRect();
+        const boxB = b.getBoundingClientRect();
+        if (Math.abs(boxA.top - boxB.top) > 8) return boxA.top - boxB.top;
+        return boxA.left - boxB.left;
+      });
+
+      if (!elements.length) return null;
+
+      const closest = elements.reduce((best, child) => {
+        const box = child.getBoundingClientRect();
+        const centerX = box.left + box.width / 2;
+        const centerY = box.top + box.height / 2;
+        const distance = Math.hypot(x - centerX, y - centerY);
+        if (distance < best.distance) {
+          return { distance, element: child };
+        }
+        return best;
+      }, { distance: Number.POSITIVE_INFINITY, element: null }).element;
+
+      if (!closest) return null;
+      const box = closest.getBoundingClientRect();
+      const centerX = box.left + box.width / 2;
+      const centerY = box.top + box.height / 2;
+      const sameRow = y >= box.top && y <= box.bottom;
+      const shouldInsertBefore = sameRow ? x < centerX : y < centerY;
+      if (shouldInsertBefore) return closest;
+
+      const index = elements.indexOf(closest);
+      return elements[index + 1] || null;
+    }
+
+    function saveModuleLayout() {
+      const layout = {};
+      document.querySelectorAll(".module-zone").forEach(zone => {
+        layout[zone.dataset.zoneId] = [...zone.children]
+          .filter(child => child.classList && child.classList.contains("module-card"))
+          .map(child => child.dataset.moduleId);
+      });
+      setStorage("moduleLayout", layout);
+    }
+
+    function restoreModuleLayout() {
+      const layout = getStorage("moduleLayout", null);
+      applyModuleLayout(layout || defaultModuleLayout);
+    }
+
+    function normalizeModuleLayout(layout) {
+      const nextLayout = { ...layout };
+      if (nextLayout.mainStack && !nextLayout.mainWide) {
+        nextLayout.mainWide = nextLayout.mainStack;
+        delete nextLayout.mainStack;
+      }
+      return nextLayout;
+    }
+
+    function applyModuleLayout(layout) {
+      const normalized = normalizeModuleLayout(layout || defaultModuleLayout);
+      const modules = Object.fromEntries([...document.querySelectorAll(".module-card")].map(module => [module.dataset.moduleId, module]));
+      Object.entries(normalized).forEach(([zoneId, moduleIds]) => {
+        const zone = document.querySelector(`.module-zone[data-zone-id="${zoneId}"]`);
+        if (!zone || !Array.isArray(moduleIds)) return;
+        moduleIds.forEach(moduleId => {
+          if (modules[moduleId]) zone.appendChild(modules[moduleId]);
+        });
+      });
+
+      Object.entries(modules).forEach(([moduleId, module]) => {
+        if (module.parentElement && module.parentElement.classList.contains("module-zone")) return;
+        const fallbackZoneId = Object.entries(defaultModuleLayout).find(([, ids]) => ids.includes(moduleId))?.[0] || "mainWide";
+        document.querySelector(`.module-zone[data-zone-id="${fallbackZoneId}"]`)?.appendChild(module);
+      });
+    }
+
+    function toggleLayoutEdit() {
+      setLayoutEditMode(!document.body.classList.contains("layout-editing"));
+    }
+
+    function setLayoutEditMode(enabled) {
+      document.body.classList.toggle("layout-editing", enabled);
+      layoutToggleBtn.textContent = enabled ? "完成布局" : "布局编辑";
+      document.querySelectorAll(".module-handle").forEach(handle => {
+        handle.draggable = enabled;
+      });
+      if (!enabled) {
+        document.querySelectorAll(".module-zone").forEach(zone => zone.classList.remove("drag-over"));
+        saveModuleLayout();
+      }
+    }
+
+    function resetModuleLayout() {
+      applyModuleLayout(defaultModuleLayout);
+      localStorage.removeItem(`${storePrefix}:moduleLayout`);
+      saveModuleLayout();
+    }
+
     function saveTimerSubject() {
       localStorage.setItem(`${storePrefix}:timerSubject`, timerSubject.value);
     }
@@ -2675,8 +3254,11 @@
       const savedSubject = localStorage.getItem(`${storePrefix}:timerSubject`);
       if (savedSubject) timerSubject.value = savedSubject;
       document.body.dataset.theme = localStorage.getItem(`${storePrefix}:theme`) || "default";
-      applyBackground(localStorage.getItem(`${storePrefix}:background`) || "");
+      applyBackgroundSettings();
+      loadSavedBackground();
       document.getElementById("scoreDate").value = todayKey;
+      restoreModuleLayout();
+      initModuleDragging();
       renderThemeOptions();
       renderCountdown();
       renderStages();
@@ -2702,6 +3284,13 @@
 
     majorScoreTypes.addEventListener("keydown", event => {
       if (event.key === "Enter") applyMajorScoreTypes();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeBackgroundEditor();
+        closeFocusStatsModal();
+      }
     });
 
     init();
