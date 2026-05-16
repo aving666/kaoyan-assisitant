@@ -194,6 +194,10 @@
       gap: 10px;
     }
 
+    .stage-toggle {
+      display: none;
+    }
+
     .icon-btn {
       width: 40px;
       height: 40px;
@@ -512,8 +516,21 @@
       align-items: start;
     }
 
+    .main-stack {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+
     .stage-list {
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 14px;
     }
@@ -770,10 +787,48 @@
       gap: 8px;
     }
 
+    .wrong-upload-main-form {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 10px;
+    }
+
     .wrong-upload-actions {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
+    }
+
+    .wrong-preview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .wrong-preview-card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .wrong-preview-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #e2e8f0;
+    }
+
+    .wrong-preview-card span {
+      display: block;
+      padding: 7px 8px;
+      color: var(--muted);
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .file-btn {
@@ -808,24 +863,32 @@
       display: grid;
       gap: 10px;
       margin-top: 12px;
-      max-height: 360px;
+      max-height: 520px;
       overflow: auto;
       padding-right: 2px;
     }
 
     .wrong-upload-card {
       display: grid;
-      grid-template-columns: 78px minmax(0, 1fr);
+      grid-template-columns: auto 96px minmax(0, 1fr);
       gap: 10px;
+      align-items: start;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #ffffff;
       padding: 10px;
     }
 
+    .wrong-select {
+      width: 18px;
+      height: 18px;
+      margin-top: 4px;
+      accent-color: var(--blue);
+    }
+
     .wrong-thumb {
-      width: 78px;
-      height: 78px;
+      width: 96px;
+      height: 96px;
       border-radius: 6px;
       object-fit: cover;
       background: #e2e8f0;
@@ -854,6 +917,12 @@
     .wrong-upload-meta {
       color: var(--muted);
       font-size: 12px;
+    }
+
+    .wrong-bank-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .wrong-card {
@@ -893,6 +962,22 @@
       grid-column: 1 / -1;
     }
 
+    .score-fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .major-types-row {
+      display: none;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+    }
+
+    .major-types-row.active {
+      display: grid;
+    }
+
     .score-list {
       display: grid;
       gap: 8px;
@@ -923,6 +1008,123 @@
       font-size: 13px;
     }
 
+    .focus-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .focus-stat-card {
+      background: var(--panel-soft);
+      border-radius: 6px;
+      padding: 9px;
+      min-height: 58px;
+    }
+
+    .focus-stat-card strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .focus-stat-card span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .focus-subject-list,
+    .focus-session-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .focus-chart {
+      min-height: 190px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+
+    .focus-chart svg {
+      display: block;
+      width: 100%;
+      height: 180px;
+    }
+
+    .focus-chart-empty {
+      display: grid;
+      place-items: center;
+      min-height: 166px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .focus-section-label {
+      margin: 10px 0 8px;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .focus-subject-row {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) 44px;
+      align-items: center;
+      gap: 8px;
+      color: #334155;
+      font-size: 13px;
+    }
+
+    .focus-bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+
+    .focus-bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--blue);
+    }
+
+    .focus-session-list {
+      margin-top: 12px;
+      max-height: 220px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .focus-session-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 9px 10px;
+    }
+
+    .focus-session-main {
+      min-width: 0;
+    }
+
+    .focus-session-main strong {
+      display: block;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .focus-session-main span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
     .empty {
       color: var(--muted);
       font-size: 14px;
@@ -930,6 +1132,7 @@
     }
 
     .floating {
+      display: none;
       position: fixed;
       left: 50%;
       bottom: 22px;
@@ -968,6 +1171,10 @@
     @media (max-width: 1060px) {
       .dashboard,
       .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .main-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1034,7 +1241,12 @@
       .subject-grid,
       .wrong-grid,
       .score-form,
+      .score-fields,
+      .major-types-row,
       .wrong-upload-actions,
+      .wrong-upload-main-form,
+      .wrong-preview,
+      .focus-stat-grid,
       .mini-stats {
         grid-template-columns: 1fr;
       }
@@ -1058,7 +1270,7 @@
         <p class="subtitle">阶段计划、每日执行、专注记录、模考复盘</p>
       </div>
       <div class="header-actions">
-        <button class="icon-btn" title="展开或收起全部阶段" onclick="toggleAll()">•••</button>
+        <button class="icon-btn stage-toggle" title="展开或收起全部阶段" onclick="toggleAll()">•••</button>
         <button class="icon-btn" title="清空今日数据" onclick="clearToday()">↺</button>
       </div>
     </header>
@@ -1153,28 +1365,97 @@
     </section>
 
     <section class="workspace">
-      <section class="stage-list" id="stageList" aria-label="阶段计划"></section>
+      <section class="main-stack">
+        <div class="main-grid">
+          <article class="panel">
+            <div class="panel-title">
+              <span>今日清单</span>
+              <span id="taskPercent">0%</span>
+            </div>
+            <div class="progress-line"><span id="taskProgress"></span></div>
+            <div class="task-form">
+              <select id="taskSubject">
+                <option>数学</option>
+                <option>英语</option>
+                <option>政治</option>
+                <option>专业课</option>
+              </select>
+              <input id="taskInput" type="text" placeholder="新增任务" />
+              <button class="primary-btn" onclick="addTask()">添加</button>
+            </div>
+            <div class="task-list" id="taskList"></div>
+          </article>
 
-      <aside class="side-stack">
+          <article class="panel focus-panel">
+            <div class="panel-title">专注统计</div>
+            <div class="focus-stat-grid">
+              <div class="focus-stat-card">
+                <strong id="focusTodayTotal">0</strong>
+                <span>今日分钟</span>
+              </div>
+              <div class="focus-stat-card">
+                <strong id="focusWeekTotal">0</strong>
+                <span>近7天</span>
+              </div>
+              <div class="focus-stat-card">
+                <strong id="focusSessionCount">0</strong>
+                <span>记录数</span>
+              </div>
+            </div>
+            <div class="focus-section-label">近7天专注趋势</div>
+            <div class="focus-chart" id="focusWeekChart"></div>
+            <div class="focus-section-label">今日分科</div>
+            <div class="focus-subject-list" id="focusSubjectStats"></div>
+            <div class="focus-section-label">最近记录</div>
+            <div class="focus-session-list" id="focusSessionList"></div>
+          </article>
+        </div>
+
         <article class="panel">
-          <div class="panel-title">
-            <span>今日清单</span>
-            <span id="taskPercent">0%</span>
+          <div class="panel-title">添加错题</div>
+          <div class="wrong-upload-form">
+            <div class="wrong-upload-main-form">
+              <select id="wrongUploadSubject">
+                <option>数学</option>
+                <option>英语</option>
+                <option>政治</option>
+                <option>专业课</option>
+              </select>
+              <input id="wrongUploadNote" type="text" placeholder="填写错因或题目关键词" />
+            </div>
+            <div class="wrong-upload-actions">
+              <label class="file-btn" title="用手机后置摄像头拍照上传">
+                拍照上传
+                <input type="file" accept="image/*" capture="environment" onchange="selectWrongFiles(event)" />
+              </label>
+              <label class="file-btn secondary" title="从相册选择错题图片">
+                相册上传
+                <input type="file" accept="image/*" multiple onchange="selectWrongFiles(event)" />
+              </label>
+              <button class="primary-btn" onclick="confirmWrongUpload()">确认添加</button>
+            </div>
+            <div class="upload-hint" id="wrongUploadHint">先选择错题图片并填写错因，再点确认添加；添加后会自动计入今日错题数。</div>
+            <div class="wrong-preview" id="wrongPreview"></div>
           </div>
-          <div class="progress-line"><span id="taskProgress"></span></div>
-          <div class="task-form">
-            <select id="taskSubject">
-              <option>数学</option>
-              <option>英语</option>
-              <option>政治</option>
-              <option>专业课</option>
-            </select>
-            <input id="taskInput" type="text" placeholder="新增任务" />
-            <button class="primary-btn" onclick="addTask()">添加</button>
-          </div>
-          <div class="task-list" id="taskList"></div>
         </article>
 
+        <article class="panel">
+          <div class="panel-title">
+            <span>错题库与 PDF</span>
+            <span id="wrongSelectedCount">已选 0 题</span>
+          </div>
+          <div class="wrong-bank-actions">
+            <button class="ghost-btn" onclick="selectAllWrongUploads()">全选</button>
+            <button class="ghost-btn" onclick="clearWrongSelection()">清空选择</button>
+            <button class="primary-btn" onclick="generateWrongPdf()">生成PDF</button>
+          </div>
+          <div class="wrong-upload-list" id="wrongUploadList"></div>
+        </article>
+
+        <section class="stage-list" id="stageList" aria-label="阶段计划"></section>
+      </section>
+
+      <aside class="side-stack">
         <article class="panel">
           <div class="panel-title">
             <span>错题统计</span>
@@ -1184,45 +1465,21 @@
         </article>
 
         <article class="panel">
-          <div class="panel-title">上传错题</div>
-          <div class="wrong-upload-form">
-            <select id="wrongUploadSubject">
-              <option>数学</option>
-              <option>英语</option>
-              <option>政治</option>
-              <option>专业课</option>
-            </select>
-            <input id="wrongUploadNote" type="text" placeholder="错因或题目关键词" />
-            <div class="wrong-upload-actions">
-              <label class="file-btn" title="用手机后置摄像头拍照上传">
-                拍照上传
-                <input type="file" accept="image/*" capture="environment" onchange="handleWrongUpload(event)" />
-              </label>
-              <label class="file-btn secondary" title="从相册选择错题图片">
-                相册上传
-                <input type="file" accept="image/*" multiple onchange="handleWrongUpload(event)" />
-              </label>
-            </div>
-            <div class="upload-hint" id="wrongUploadHint">上传后会自动计入今日对应科目的错题数。</div>
-          </div>
-          <div class="wrong-upload-list" id="wrongUploadList"></div>
-        </article>
-
-        <article class="panel">
           <div class="panel-title">模考记录</div>
           <div class="score-form">
             <input type="date" id="scoreDate" />
-            <select id="scoreType">
+            <select id="scoreType" onchange="renderScoreFields()">
               <option>全科模拟</option>
               <option>数学套卷</option>
               <option>英语套卷</option>
               <option>政治套卷</option>
               <option>专业课套卷</option>
             </select>
-            <input type="number" id="scoreMath" min="0" placeholder="数学" />
-            <input type="number" id="scoreEnglish" min="0" placeholder="英语" />
-            <input type="number" id="scorePolitics" min="0" placeholder="政治" />
-            <input type="number" id="scoreMajor" min="0" placeholder="专业课" />
+            <div class="major-types-row full" id="majorTypesRow">
+              <input type="text" id="majorScoreTypes" placeholder="专业课题型，如：名词解释、简答题、论述题" />
+              <button class="ghost-btn" onclick="applyMajorScoreTypes()">应用题型</button>
+            </div>
+            <div class="score-fields full" id="scoreFields"></div>
             <button class="primary-btn full" onclick="saveScore()">保存记录</button>
           </div>
           <div class="score-list" id="scoreList"></div>
@@ -1394,6 +1651,13 @@
       { label: "50", minutes: 50 },
       { label: "90", minutes: 90 }
     ];
+    const scoreTemplates = {
+      "全科模拟": ["数学", "英语", "政治", "专业课"],
+      "数学套卷": ["选择题", "填空题", "解答题"],
+      "英语套卷": ["完形填空", "阅读理解", "新题型", "翻译", "小作文", "大作文"],
+      "政治套卷": ["单选题", "多选题", "分析题"],
+      "专业课套卷": ["名词解释", "简答题", "论述题"]
+    };
 
     function formatLocalDate(date) {
       const year = date.getFullYear();
@@ -1414,8 +1678,17 @@
     const wrongUploadSubject = document.getElementById("wrongUploadSubject");
     const wrongUploadNote = document.getElementById("wrongUploadNote");
     const wrongUploadHint = document.getElementById("wrongUploadHint");
+    const wrongPreview = document.getElementById("wrongPreview");
     const wrongUploadList = document.getElementById("wrongUploadList");
+    const wrongSelectedCount = document.getElementById("wrongSelectedCount");
     const scoreList = document.getElementById("scoreList");
+    const focusSubjectStats = document.getElementById("focusSubjectStats");
+    const focusSessionList = document.getElementById("focusSessionList");
+    const focusWeekChart = document.getElementById("focusWeekChart");
+    const scoreType = document.getElementById("scoreType");
+    const scoreFields = document.getElementById("scoreFields");
+    const majorTypesRow = document.getElementById("majorTypesRow");
+    const majorScoreTypes = document.getElementById("majorScoreTypes");
     const examDateInput = document.getElementById("examDate");
     const presetRow = document.getElementById("presetRow");
     const timerTime = document.getElementById("timerTime");
@@ -1433,7 +1706,11 @@
     let timerRunning = false;
     let timerHandle = null;
     let focusStartedSeconds = timerSeconds;
+    let focusSessionStartAt = null;
     let wrongDbPromise = null;
+    let pendingWrongFiles = [];
+    let pendingWrongPreviewUrls = [];
+    let selectedWrongIds = new Set();
 
     function getStorage(key, fallback) {
       try {
@@ -1597,13 +1874,46 @@
       });
     }
 
-    async function handleWrongUpload(event) {
+    function selectWrongFiles(event) {
       const files = [...(event.target.files || [])].filter(file => file.type.startsWith("image/"));
       event.target.value = "";
       if (!files.length) return;
+      pendingWrongFiles = files;
+      renderWrongPreview();
+      wrongUploadHint.textContent = `已选择 ${files.length} 张图片，填写错因后点击“确认添加”。`;
+    }
+
+    function clearWrongPreview() {
+      pendingWrongPreviewUrls.forEach(url => URL.revokeObjectURL(url));
+      pendingWrongPreviewUrls = [];
+      wrongPreview.innerHTML = "";
+    }
+
+    function renderWrongPreview() {
+      clearWrongPreview();
+      pendingWrongPreviewUrls = pendingWrongFiles.map(file => URL.createObjectURL(file));
+      wrongPreview.innerHTML = pendingWrongFiles.map((file, index) => `
+        <div class="wrong-preview-card">
+          <img src="${pendingWrongPreviewUrls[index]}" alt="待添加错题预览" />
+          <span>${escapeHtml(file.name || `错题图片${index + 1}`)}</span>
+        </div>
+      `).join("");
+    }
+
+    async function confirmWrongUpload() {
+      const files = pendingWrongFiles;
+      if (!files.length) {
+        wrongUploadHint.textContent = "请先拍照或从相册选择错题图片。";
+        return;
+      }
 
       const subject = wrongUploadSubject.value;
       const note = wrongUploadNote.value.trim();
+      if (!note) {
+        wrongUploadHint.textContent = "请先填写错因或题目关键词，再确认添加。";
+        return;
+      }
+
       wrongUploadHint.textContent = `正在处理 ${files.length} 张图片...`;
 
       try {
@@ -1622,6 +1932,8 @@
           updateWrongCount(subject, 1);
         }
         wrongUploadNote.value = "";
+        pendingWrongFiles = [];
+        clearWrongPreview();
         wrongUploadHint.textContent = `已上传 ${files.length} 张，并计入${subject}错题数。`;
         renderWrong();
         renderWrongUploads();
@@ -1633,12 +1945,15 @@
     async function renderWrongUploads() {
       try {
         const uploads = await getWrongUploads();
+        selectedWrongIds = new Set([...selectedWrongIds].filter(id => uploads.some(item => item.id === id)));
+        renderWrongSelectedCount();
         if (!uploads.length) {
           wrongUploadList.innerHTML = `<div class="empty">暂无上传错题</div>`;
           return;
         }
         wrongUploadList.innerHTML = uploads.slice(0, 30).map(item => `
           <div class="wrong-upload-card">
+            <input class="wrong-select" type="checkbox" ${selectedWrongIds.has(item.id) ? "checked" : ""} onchange="toggleWrongSelection('${item.id}')" />
             <img class="wrong-thumb" src="${item.image}" alt="${escapeHtml(item.subject)}错题" />
             <div class="wrong-upload-main">
               <div class="wrong-upload-top">
@@ -1655,10 +1970,138 @@
       }
     }
 
+    function renderWrongSelectedCount() {
+      wrongSelectedCount.textContent = `已选 ${selectedWrongIds.size} 题`;
+    }
+
+    function toggleWrongSelection(id) {
+      if (selectedWrongIds.has(id)) {
+        selectedWrongIds.delete(id);
+      } else {
+        selectedWrongIds.add(id);
+      }
+      renderWrongSelectedCount();
+    }
+
+    async function selectAllWrongUploads() {
+      const uploads = await getWrongUploads();
+      selectedWrongIds = new Set(uploads.map(item => item.id));
+      renderWrongUploads();
+    }
+
+    function clearWrongSelection() {
+      selectedWrongIds.clear();
+      renderWrongUploads();
+    }
+
+    async function generateWrongPdf() {
+      const uploads = await getWrongUploads();
+      const selected = uploads.filter(item => selectedWrongIds.has(item.id));
+      if (!selected.length) {
+        wrongUploadHint.textContent = "请先在错题库中勾选要生成 PDF 的错题。";
+        return;
+      }
+
+      const printable = selected.map((item, index) => `
+        <article class="wrong-page">
+          <div class="wrong-head">
+            <span>第 ${index + 1} 题</span>
+            <span>${escapeHtml(item.subject)} · ${escapeHtml(item.date)}</span>
+          </div>
+          <div class="wrong-reason">错因：${escapeHtml(item.note || "未填写")}</div>
+          <img src="${item.image}" alt="${escapeHtml(item.subject)}错题" />
+        </article>
+      `).join("");
+
+      const printWindow = window.open("", "_blank");
+      if (!printWindow) {
+        wrongUploadHint.textContent = "浏览器拦截了新窗口，请允许弹窗后再生成 PDF。";
+        return;
+      }
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="zh-CN">
+        <head>
+          <meta charset="UTF-8" />
+          <title>考研错题集</title>
+          <style>
+            * { box-sizing: border-box; }
+            body {
+              margin: 0;
+              color: #111827;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+              background: #ffffff;
+            }
+            .cover {
+              padding: 28px 32px 18px;
+              border-bottom: 2px solid #111827;
+              margin-bottom: 18px;
+            }
+            h1 {
+              margin: 0 0 8px;
+              font-size: 28px;
+            }
+            .meta {
+              color: #4b5563;
+              font-size: 14px;
+            }
+            .wrong-page {
+              page-break-inside: avoid;
+              padding: 18px 32px 26px;
+              border-bottom: 1px solid #e5e7eb;
+            }
+            .wrong-head {
+              display: flex;
+              justify-content: space-between;
+              gap: 18px;
+              margin-bottom: 10px;
+              font-weight: 800;
+              color: #1f2937;
+            }
+            .wrong-reason {
+              margin-bottom: 12px;
+              padding: 10px 12px;
+              border-radius: 6px;
+              background: #f3f4f6;
+              color: #374151;
+              line-height: 1.6;
+            }
+            img {
+              display: block;
+              max-width: 100%;
+              max-height: 820px;
+              object-fit: contain;
+              margin: 0 auto;
+              border: 1px solid #e5e7eb;
+            }
+            @media print {
+              .wrong-page { page-break-inside: avoid; }
+            }
+          </style>
+        </head>
+        <body>
+          <section class="cover">
+            <h1>考研错题集</h1>
+            <div class="meta">生成日期：${formatLocalDate(new Date())} · 共 ${selected.length} 题</div>
+          </section>
+          ${printable}
+          <script>
+            window.addEventListener("load", () => {
+              setTimeout(() => window.print(), 250);
+            });
+          <\/script>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
+
     async function deleteWrongUpload(id) {
       const uploads = await getWrongUploads();
       const target = uploads.find(item => item.id === id);
       await deleteWrongUploadRecord(id);
+      selectedWrongIds.delete(id);
       if (target && target.counted && target.date === todayKey) {
         updateWrongCount(target.subject, -1, target.date);
         renderWrong();
@@ -1866,6 +2309,7 @@
     }
 
     async function resetWrong() {
+      if (!confirm("确定要清零今日错题统计吗？已上传的错题图片会保留，但今日计数会清空。")) return;
       setStorage(`wrong:${todayKey}`, Object.fromEntries(subjects.map(subject => [subject, 0])));
       renderWrong();
       try {
@@ -1900,6 +2344,7 @@
       clearInterval(timerHandle);
       timerSeconds = activePreset * 60;
       focusStartedSeconds = timerSeconds;
+      focusSessionStartAt = null;
       startPauseBtn.textContent = "开始";
       renderPresets();
       renderTimer();
@@ -1916,6 +2361,7 @@
       startPauseBtn.textContent = timerRunning ? "暂停" : "开始";
       clearInterval(timerHandle);
       if (!timerRunning) return;
+      if (!focusSessionStartAt) focusSessionStartAt = Date.now();
       timerHandle = setInterval(() => {
         timerSeconds -= 1;
         if (timerSeconds <= 0) {
@@ -1931,6 +2377,7 @@
       clearInterval(timerHandle);
       timerSeconds = activePreset * 60;
       focusStartedSeconds = timerSeconds;
+      focusSessionStartAt = null;
       startPauseBtn.textContent = "开始";
       renderTimer();
     }
@@ -1941,29 +2388,222 @@
       const focus = getStorage(`focus:${todayKey}`, Object.fromEntries(subjects.map(subject => [subject, 0])));
       focus[timerSubject.value] = (focus[timerSubject.value] || 0) + spent;
       setStorage(`focus:${todayKey}`, focus);
+      addFocusSession(timerSubject.value, spent);
       resetTimer();
       renderStats();
+      renderFocusStats();
+    }
+
+    function addFocusSession(subject, minutes) {
+      const now = Date.now();
+      const sessions = getStorage("focusSessions", []);
+      sessions.unshift({
+        id: `${now}-${Math.random().toString(16).slice(2)}`,
+        date: todayKey,
+        subject,
+        minutes,
+        startedAt: focusSessionStartAt || now - minutes * 60000,
+        endedAt: now
+      });
+      setStorage("focusSessions", sessions.slice(0, 300));
+    }
+
+    function getRecentDateKeys(days) {
+      return Array.from({ length: days }, (_, index) => {
+        const date = new Date();
+        date.setDate(date.getDate() - index);
+        return formatLocalDate(date);
+      });
+    }
+
+    function renderFocusStats() {
+      const sessions = getStorage("focusSessions", []);
+      const weekKeys = new Set(getRecentDateKeys(7));
+      const todaySessions = sessions.filter(item => item.date === todayKey);
+      const weekSessions = sessions.filter(item => weekKeys.has(item.date));
+      const todayTotal = todaySessions.reduce((sum, item) => sum + Number(item.minutes || 0), 0);
+      const weekTotal = weekSessions.reduce((sum, item) => sum + Number(item.minutes || 0), 0);
+      const subjectTotals = Object.fromEntries(subjects.map(subject => [subject, 0]));
+
+      todaySessions.forEach(item => {
+        subjectTotals[item.subject] = (subjectTotals[item.subject] || 0) + Number(item.minutes || 0);
+      });
+
+      document.getElementById("focusTodayTotal").textContent = todayTotal;
+      document.getElementById("focusWeekTotal").textContent = weekTotal;
+      document.getElementById("focusSessionCount").textContent = todaySessions.length;
+
+      renderFocusWeekChart(weekSessions);
+
+      const maxSubject = Math.max(1, ...Object.values(subjectTotals));
+      focusSubjectStats.innerHTML = subjects.map(subject => {
+        const value = subjectTotals[subject] || 0;
+        return `
+          <div class="focus-subject-row">
+            <span>${subject}</span>
+            <div class="focus-bar"><span style="width: ${Math.round(value / maxSubject * 100)}%"></span></div>
+            <span>${value}分</span>
+          </div>
+        `;
+      }).join("");
+
+      if (!sessions.length) {
+        focusSessionList.innerHTML = `<div class="empty">暂无专注记录</div>`;
+        return;
+      }
+
+      focusSessionList.innerHTML = sessions.slice(0, 12).map(item => `
+        <div class="focus-session-item">
+          <div class="focus-session-main">
+            <strong>${escapeHtml(item.subject)} · ${Number(item.minutes || 0)}分钟</strong>
+            <span>${escapeHtml(item.date)} ${formatTime(item.endedAt)}</span>
+          </div>
+          <button class="small-delete" type="button" title="删除记录" onclick="deleteFocusSession('${item.id}')">×</button>
+        </div>
+      `).join("");
+    }
+
+    function renderFocusWeekChart(weekSessions) {
+      const keys = getRecentDateKeys(7).reverse();
+      const totals = Object.fromEntries(keys.map(key => [key, 0]));
+      weekSessions.forEach(item => {
+        if (totals[item.date] !== undefined) {
+          totals[item.date] += Number(item.minutes || 0);
+        }
+      });
+
+      const values = keys.map(key => totals[key]);
+      const maxValue = Math.max(1, ...values);
+      const hasData = values.some(value => value > 0);
+
+      if (!hasData) {
+        focusWeekChart.innerHTML = `<div class="focus-chart-empty">完成一轮专注后生成趋势图</div>`;
+        return;
+      }
+
+      const width = 560;
+      const height = 180;
+      const chartTop = 14;
+      const chartBottom = 36;
+      const chartHeight = height - chartTop - chartBottom;
+      const gap = 16;
+      const barWidth = (width - gap * (keys.length + 1)) / keys.length;
+      const gridLines = [0.25, 0.5, 0.75, 1];
+      const bars = keys.map((key, index) => {
+        const value = totals[key];
+        const barHeight = Math.max(value ? 4 : 0, value / maxValue * chartHeight);
+        const x = gap + index * (barWidth + gap);
+        const y = chartTop + chartHeight - barHeight;
+        const label = key.slice(5).replace("-", "/");
+        return `
+          <rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="5" fill="var(--blue)"></rect>
+          <text x="${x + barWidth / 2}" y="${height - 16}" text-anchor="middle" fill="#64748b" font-size="12">${label}</text>
+          <text x="${x + barWidth / 2}" y="${Math.max(12, y - 6)}" text-anchor="middle" fill="#334155" font-size="12" font-weight="700">${value}</text>
+        `;
+      }).join("");
+
+      const grids = gridLines.map(line => {
+        const y = chartTop + chartHeight - chartHeight * line;
+        return `<line x1="8" y1="${y}" x2="${width - 8}" y2="${y}" stroke="#e2e8f0" stroke-dasharray="4 5"></line>`;
+      }).join("");
+
+      focusWeekChart.innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="近7天专注时长柱状图">
+          ${grids}
+          ${bars}
+        </svg>
+      `;
+    }
+
+    function formatTime(timestamp) {
+      if (!timestamp) return "";
+      const date = new Date(timestamp);
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      return `${hours}:${minutes}`;
+    }
+
+    function deleteFocusSession(id) {
+      const sessions = getStorage("focusSessions", []);
+      const target = sessions.find(item => item.id === id);
+      setStorage("focusSessions", sessions.filter(item => item.id !== id));
+      if (target && target.date === todayKey) {
+        const focus = getStorage(`focus:${todayKey}`, Object.fromEntries(subjects.map(subject => [subject, 0])));
+        focus[target.subject] = Math.max(0, (focus[target.subject] || 0) - Number(target.minutes || 0));
+        setStorage(`focus:${todayKey}`, focus);
+      }
+      renderFocusStats();
+      renderStats();
+    }
+
+    function removeTodayFocusSessions() {
+      const sessions = getStorage("focusSessions", []);
+      setStorage("focusSessions", sessions.filter(item => item.date !== todayKey));
+      renderFocusStats();
     }
 
     function saveTimerSubject() {
       localStorage.setItem(`${storePrefix}:timerSubject`, timerSubject.value);
     }
 
+    function getMajorScoreTypes() {
+      const saved = localStorage.getItem(`${storePrefix}:majorScoreTypes`);
+      const raw = saved || scoreTemplates["专业课套卷"].join("、");
+      const fields = raw
+        .split(/[、,，\n]/)
+        .map(item => item.trim())
+        .filter(Boolean);
+      return fields.length ? fields : scoreTemplates["专业课套卷"];
+    }
+
+    function getScoreLabels(type) {
+      return type === "专业课套卷" ? getMajorScoreTypes() : (scoreTemplates[type] || scoreTemplates["全科模拟"]);
+    }
+
+    function renderScoreFields() {
+      const type = scoreType.value;
+      const labels = getScoreLabels(type);
+      majorTypesRow.classList.toggle("active", type === "专业课套卷");
+      majorScoreTypes.value = getMajorScoreTypes().join("、");
+      scoreFields.innerHTML = labels.map((label, index) => `
+        <input
+          type="number"
+          class="score-field"
+          min="0"
+          id="scoreField${index}"
+          data-label="${escapeHtml(label)}"
+          placeholder="${escapeHtml(label)}"
+        />
+      `).join("");
+    }
+
+    function applyMajorScoreTypes() {
+      const fields = majorScoreTypes.value
+        .split(/[、,，\n]/)
+        .map(item => item.trim())
+        .filter(Boolean);
+      if (!fields.length) return;
+      localStorage.setItem(`${storePrefix}:majorScoreTypes`, fields.join("、"));
+      renderScoreFields();
+    }
+
     function saveScore() {
+      const fields = [...document.querySelectorAll(".score-field")];
+      const breakdown = fields.map(field => ({
+        label: field.dataset.label,
+        score: Number(field.value || 0)
+      }));
       const record = {
         id: `${Date.now()}`,
         date: document.getElementById("scoreDate").value || todayKey,
-        type: document.getElementById("scoreType").value,
-        math: Number(document.getElementById("scoreMath").value || 0),
-        english: Number(document.getElementById("scoreEnglish").value || 0),
-        politics: Number(document.getElementById("scorePolitics").value || 0),
-        major: Number(document.getElementById("scoreMajor").value || 0)
+        type: scoreType.value,
+        breakdown
       };
-      record.total = record.math + record.english + record.politics + record.major;
+      record.total = breakdown.reduce((sum, item) => sum + item.score, 0);
       const scores = getStorage("scores", []);
       scores.unshift(record);
       setStorage("scores", scores.slice(0, 20));
-      ["scoreMath", "scoreEnglish", "scorePolitics", "scoreMajor"].forEach(id => document.getElementById(id).value = "");
+      renderScoreFields();
       renderScores();
       renderStats();
     }
@@ -1983,15 +2623,24 @@
       scoreList.innerHTML = scores.map(score => `
         <div class="score-item">
           <div class="score-main">
-            <span>${score.date} · ${score.type}</span>
-            <span>${score.total}分</span>
+            <span>${escapeHtml(score.date)} · ${escapeHtml(score.type)}</span>
+            <span>${Number(score.total || 0)}分</span>
           </div>
           <div class="score-meta">
-            数学${score.math} / 英语${score.english} / 政治${score.politics} / 专业课${score.major}
+            ${getScoreBreakdownText(score)}
           </div>
           <button class="danger-btn" onclick="deleteScore('${score.id}')">删除</button>
         </div>
       `).join("");
+    }
+
+    function getScoreBreakdownText(score) {
+      if (Array.isArray(score.breakdown)) {
+        return score.breakdown
+          .map(item => `${escapeHtml(item.label)}${Number(item.score || 0)}`)
+          .join(" / ");
+      }
+      return `数学${Number(score.math || 0)} / 英语${Number(score.english || 0)} / 政治${Number(score.politics || 0)} / 专业课${Number(score.major || 0)}`;
     }
 
     function renderStats() {
@@ -2012,6 +2661,7 @@
       ensureDailyTasks();
       renderTasks();
       renderWrong();
+      removeTodayFocusSessions();
       renderStats();
       try {
         await markTodayWrongUploadsUncounted();
@@ -2035,8 +2685,10 @@
       renderWrong();
       renderPresets();
       renderTimer();
+      renderScoreFields();
       renderScores();
       renderWrongUploads();
+      renderFocusStats();
       renderStats();
     }
 
@@ -2046,6 +2698,10 @@
 
     customMinutes.addEventListener("keydown", event => {
       if (event.key === "Enter") setCustomPreset();
+    });
+
+    majorScoreTypes.addEventListener("keydown", event => {
+      if (event.key === "Enter") applyMajorScoreTypes();
     });
 
     init();
