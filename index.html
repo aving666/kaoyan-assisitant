@@ -660,6 +660,11 @@
       margin: 16px 0 24px;
     }
 
+    .timeline-track {
+      position: relative;
+      padding-top: 38px;
+    }
+
     .bar {
       height: 9px;
       border-radius: 999px;
@@ -681,6 +686,71 @@
       color: var(--muted);
       font-size: 14px;
       margin-top: 8px;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      display: grid;
+      justify-items: center;
+      gap: 2px;
+      min-width: 88px;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .timeline-icon {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 20px;
+      overflow: hidden;
+    }
+
+    .timeline-icon img {
+      display: none;
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .timeline-icon.has-custom span {
+      display: none;
+    }
+
+    .timeline-icon.has-custom img {
+      display: block;
+    }
+
+    .timeline-marker-label {
+      max-width: 118px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: #334155;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+    }
+
+    .timeline-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .workspace {
@@ -1508,12 +1578,21 @@
     </section>
 
     <section class="timeline" aria-label="全年复习时间轴">
-      <div class="bar">
-        <div class="seg"></div>
-        <div class="seg"></div>
-        <div class="seg"></div>
-        <div class="seg"></div>
-        <div class="seg"></div>
+      <div class="timeline-track">
+        <div class="bar">
+          <div class="seg"></div>
+          <div class="seg"></div>
+          <div class="seg"></div>
+          <div class="seg"></div>
+          <div class="seg"></div>
+        </div>
+        <div class="timeline-marker" id="timelineMarker">
+          <div class="timeline-icon" id="timelineIcon">
+            <span>✈</span>
+            <img id="timelineIconImage" alt="时间轴进度图标" />
+          </div>
+          <span class="timeline-marker-label" id="timelineMarkerLabel">当前阶段</span>
+        </div>
       </div>
       <div class="months">
         <span>3月</span>
@@ -1522,6 +1601,14 @@
         <span>9月</span>
         <span>11月</span>
         <span>12月</span>
+      </div>
+      <div class="timeline-actions">
+        
+        <label class="upload-btn" title="上传 SVG 矢量图替换时间轴小图标">
+          上传进度图标
+          <input type="file" accept=".svg,image/svg+xml" onchange="uploadTimelineIcon(event)" />
+        </label>
+        <button class="ghost-btn" onclick="clearTimelineIcon()">恢复小飞机</button>
       </div>
     </section>
 
@@ -1951,6 +2038,11 @@
     const backgroundModal = document.getElementById("backgroundModal");
     const focusStatsModal = document.getElementById("focusStatsModal");
     const layoutToggleBtn = document.getElementById("layoutToggleBtn");
+    const timelineMarker = document.getElementById("timelineMarker");
+    const timelineMarkerLabel = document.getElementById("timelineMarkerLabel");
+    const timelineProgressText = document.getElementById("timelineProgressText");
+    const timelineIcon = document.getElementById("timelineIcon");
+    const timelineIconImage = document.getElementById("timelineIconImage");
 
     const dateStageIndex = getStageByDate();
     const defaultModuleLayout = {
@@ -2219,6 +2311,62 @@
         const legacyBackground = localStorage.getItem(`${storePrefix}:background`);
         if (legacyBackground) applyBackground(legacyBackground);
       }
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(reader.error);
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function uploadTimelineIcon(event) {
+      const file = event.target.files && event.target.files[0];
+      event.target.value = "";
+      if (!file) return;
+      const isSvg = file.type === "image/svg+xml" || file.name.toLowerCase().endsWith(".svg");
+      if (!isSvg) {
+        alert("请上传 SVG 矢量图。");
+        return;
+      }
+
+      try {
+        const image = await readFileAsDataUrl(file);
+        await putMedia({
+          id: "timelineIcon",
+          image,
+          updatedAt: Date.now()
+        });
+        applyTimelineIcon(image);
+      } catch (error) {
+        alert("进度图标保存失败，请换一个 SVG 文件再试。");
+      }
+    }
+
+    function applyTimelineIcon(image) {
+      const hasImage = Boolean(image);
+      timelineIcon.classList.toggle("has-custom", hasImage);
+      timelineIconImage.src = hasImage ? image : "";
+    }
+
+    async function loadTimelineIcon() {
+      try {
+        const media = await getMedia("timelineIcon");
+        applyTimelineIcon(media && media.image ? media.image : "");
+      } catch (error) {
+        applyTimelineIcon("");
+      }
+    }
+
+    async function clearTimelineIcon() {
+      try {
+        await deleteMedia("timelineIcon");
+      } catch (error) {
+        // The default icon can still be restored visually.
+      }
+      applyTimelineIcon("");
     }
 
     function openWrongDb() {
@@ -2629,6 +2777,24 @@
       const diff = Math.ceil((target - now) / 86400000);
       document.getElementById("daysLeft").textContent = Math.max(diff, 0);
       document.getElementById("daysUnit").textContent = diff >= 0 ? "天" : "已结束";
+      renderTimelineProgress();
+    }
+
+    function renderTimelineProgress() {
+      const now = new Date();
+      const examDateValue = localStorage.getItem(`${storePrefix}:examDate`) || defaultExamDate;
+      const examDate = new Date(`${examDateValue}T00:00:00`);
+      const start = new Date(now.getFullYear(), 2, 1);
+      const end = examDate > start ? examDate : new Date(now.getFullYear(), 11, 31);
+      const rawProgress = (now - start) / (end - start);
+      const progress = Math.min(1, Math.max(0, rawProgress));
+      const percent = Math.round(progress * 1000) / 10;
+      const stage = stages[dateStageIndex];
+      const daysToExam = Math.ceil((examDate - now) / 86400000);
+
+      timelineMarker.style.left = `${percent}%`;
+      timelineMarkerLabel.textContent = stage ? stage.name : "当前进度";
+      //timelineProgressText.textContent = `当前 ${percent}% · ${stage ? stage.name : "复习中"} · 距考试 ${Math.max(0, daysToExam)} 天`;
     }
 
     function taskKey() {
@@ -3261,6 +3427,7 @@
       initModuleDragging();
       renderThemeOptions();
       renderCountdown();
+      loadTimelineIcon();
       renderStages();
       ensureDailyTasks();
       renderTasks();
