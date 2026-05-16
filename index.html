@@ -342,7 +342,9 @@
     .score-form input,
     .score-form select,
     .timer-select,
-    .custom-timer input {
+    .custom-timer input,
+    .wrong-upload-form input,
+    .wrong-upload-form select {
       width: 100%;
       border: 1px solid #cbd5e1;
       border-radius: 6px;
@@ -763,6 +765,97 @@
       gap: 8px;
     }
 
+    .wrong-upload-form {
+      display: grid;
+      gap: 8px;
+    }
+
+    .wrong-upload-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .file-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border-radius: 6px;
+      background: var(--blue);
+      color: #ffffff;
+      font-weight: 800;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .file-btn.secondary {
+      background: #eef2f7;
+      color: #334155;
+    }
+
+    .file-btn input {
+      display: none;
+    }
+
+    .upload-hint {
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 20px;
+    }
+
+    .wrong-upload-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      max-height: 360px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .wrong-upload-card {
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 10px;
+    }
+
+    .wrong-thumb {
+      width: 78px;
+      height: 78px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #e2e8f0;
+    }
+
+    .wrong-upload-main {
+      min-width: 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .wrong-upload-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 800;
+    }
+
+    .wrong-note {
+      color: #475569;
+      font-size: 13px;
+      word-break: break-word;
+    }
+
+    .wrong-upload-meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
     .wrong-card {
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -941,6 +1034,7 @@
       .subject-grid,
       .wrong-grid,
       .score-form,
+      .wrong-upload-actions,
       .mini-stats {
         grid-template-columns: 1fr;
       }
@@ -1087,6 +1181,31 @@
             <button class="ghost-btn" onclick="resetWrong()">清零</button>
           </div>
           <div class="wrong-grid" id="wrongGrid"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">上传错题</div>
+          <div class="wrong-upload-form">
+            <select id="wrongUploadSubject">
+              <option>数学</option>
+              <option>英语</option>
+              <option>政治</option>
+              <option>专业课</option>
+            </select>
+            <input id="wrongUploadNote" type="text" placeholder="错因或题目关键词" />
+            <div class="wrong-upload-actions">
+              <label class="file-btn" title="用手机后置摄像头拍照上传">
+                拍照上传
+                <input type="file" accept="image/*" capture="environment" onchange="handleWrongUpload(event)" />
+              </label>
+              <label class="file-btn secondary" title="从相册选择错题图片">
+                相册上传
+                <input type="file" accept="image/*" multiple onchange="handleWrongUpload(event)" />
+              </label>
+            </div>
+            <div class="upload-hint" id="wrongUploadHint">上传后会自动计入今日对应科目的错题数。</div>
+          </div>
+          <div class="wrong-upload-list" id="wrongUploadList"></div>
         </article>
 
         <article class="panel">
@@ -1292,6 +1411,10 @@
     const taskInput = document.getElementById("taskInput");
     const taskSubject = document.getElementById("taskSubject");
     const wrongGrid = document.getElementById("wrongGrid");
+    const wrongUploadSubject = document.getElementById("wrongUploadSubject");
+    const wrongUploadNote = document.getElementById("wrongUploadNote");
+    const wrongUploadHint = document.getElementById("wrongUploadHint");
+    const wrongUploadList = document.getElementById("wrongUploadList");
     const scoreList = document.getElementById("scoreList");
     const examDateInput = document.getElementById("examDate");
     const presetRow = document.getElementById("presetRow");
@@ -1310,6 +1433,7 @@
     let timerRunning = false;
     let timerHandle = null;
     let focusStartedSeconds = timerSeconds;
+    let wrongDbPromise = null;
 
     function getStorage(key, fallback) {
       try {
@@ -1321,6 +1445,15 @@
 
     function setStorage(key, value) {
       localStorage.setItem(`${storePrefix}:${key}`, JSON.stringify(value));
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
     function renderThemeOptions() {
@@ -1369,6 +1502,168 @@
     function clearBackground() {
       localStorage.removeItem(`${storePrefix}:background`);
       applyBackground("");
+    }
+
+    function openWrongDb() {
+      if (wrongDbPromise) return wrongDbPromise;
+      wrongDbPromise = new Promise((resolve, reject) => {
+        const request = indexedDB.open("kaoyan-wrong-bank", 1);
+        request.onupgradeneeded = () => {
+          const db = request.result;
+          if (!db.objectStoreNames.contains("items")) {
+            const store = db.createObjectStore("items", { keyPath: "id" });
+            store.createIndex("createdAt", "createdAt");
+            store.createIndex("date", "date");
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      return wrongDbPromise;
+    }
+
+    async function putWrongUpload(item) {
+      const db = await openWrongDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction("items", "readwrite");
+        tx.objectStore("items").put(item);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function getWrongUploads() {
+      const db = await openWrongDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction("items", "readonly");
+        const request = tx.objectStore("items").getAll();
+        request.onsuccess = () => {
+          const items = request.result || [];
+          items.sort((a, b) => b.createdAt - a.createdAt);
+          resolve(items);
+        };
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function deleteWrongUploadRecord(id) {
+      const db = await openWrongDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction("items", "readwrite");
+        tx.objectStore("items").delete(id);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function markTodayWrongUploadsUncounted() {
+      const uploads = await getWrongUploads();
+      const todayUploads = uploads.filter(item => item.date === todayKey && item.counted);
+      for (const item of todayUploads) {
+        await putWrongUpload({ ...item, counted: false });
+      }
+    }
+
+    function updateWrongCount(subject, delta, dateKey = todayKey) {
+      const wrong = getStorage(`wrong:${dateKey}`, Object.fromEntries(subjects.map(item => [item, 0])));
+      wrong[subject] = Math.max(0, (wrong[subject] || 0) + delta);
+      setStorage(`wrong:${dateKey}`, wrong);
+    }
+
+    function compressImageFile(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(reader.error);
+        reader.onload = () => {
+          const img = new Image();
+          img.onerror = () => reject(new Error("图片读取失败"));
+          img.onload = () => {
+            const maxSide = 1200;
+            const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+            const width = Math.max(1, Math.round(img.width * scale));
+            const height = Math.max(1, Math.round(img.height * scale));
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL("image/jpeg", 0.78));
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleWrongUpload(event) {
+      const files = [...(event.target.files || [])].filter(file => file.type.startsWith("image/"));
+      event.target.value = "";
+      if (!files.length) return;
+
+      const subject = wrongUploadSubject.value;
+      const note = wrongUploadNote.value.trim();
+      wrongUploadHint.textContent = `正在处理 ${files.length} 张图片...`;
+
+      try {
+        for (const file of files) {
+          const image = await compressImageFile(file);
+          const item = {
+            id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+            date: todayKey,
+            subject,
+            note,
+            image,
+            createdAt: Date.now(),
+            counted: true
+          };
+          await putWrongUpload(item);
+          updateWrongCount(subject, 1);
+        }
+        wrongUploadNote.value = "";
+        wrongUploadHint.textContent = `已上传 ${files.length} 张，并计入${subject}错题数。`;
+        renderWrong();
+        renderWrongUploads();
+      } catch (error) {
+        wrongUploadHint.textContent = "上传失败，可以换一张更小或更清晰的图片再试。";
+      }
+    }
+
+    async function renderWrongUploads() {
+      try {
+        const uploads = await getWrongUploads();
+        if (!uploads.length) {
+          wrongUploadList.innerHTML = `<div class="empty">暂无上传错题</div>`;
+          return;
+        }
+        wrongUploadList.innerHTML = uploads.slice(0, 30).map(item => `
+          <div class="wrong-upload-card">
+            <img class="wrong-thumb" src="${item.image}" alt="${escapeHtml(item.subject)}错题" />
+            <div class="wrong-upload-main">
+              <div class="wrong-upload-top">
+                <span>${escapeHtml(item.subject)}</span>
+                <button class="small-delete" type="button" title="删除错题" onclick="deleteWrongUpload('${item.id}')">×</button>
+              </div>
+              <div class="wrong-note">${escapeHtml(item.note || "未填写错因")}</div>
+              <div class="wrong-upload-meta">${escapeHtml(item.date)} 上传${item.counted ? " · 已计数" : " · 未计数"}</div>
+            </div>
+          </div>
+        `).join("");
+      } catch (error) {
+        wrongUploadList.innerHTML = `<div class="empty">错题图片读取失败</div>`;
+      }
+    }
+
+    async function deleteWrongUpload(id) {
+      const uploads = await getWrongUploads();
+      const target = uploads.find(item => item.id === id);
+      await deleteWrongUploadRecord(id);
+      if (target && target.counted && target.date === todayKey) {
+        updateWrongCount(target.subject, -1, target.date);
+        renderWrong();
+      }
+      renderWrongUploads();
     }
 
     function getStageByDate() {
@@ -1570,9 +1865,15 @@
       renderWrong();
     }
 
-    function resetWrong() {
+    async function resetWrong() {
       setStorage(`wrong:${todayKey}`, Object.fromEntries(subjects.map(subject => [subject, 0])));
       renderWrong();
+      try {
+        await markTodayWrongUploadsUncounted();
+        renderWrongUploads();
+      } catch (error) {
+        wrongUploadHint.textContent = "错题数已清零，上传记录状态同步失败。";
+      }
     }
 
     function renderPresets() {
@@ -1704,7 +2005,7 @@
       document.getElementById("latestScore").textContent = scores[0] ? scores[0].total : "--";
     }
 
-    function clearToday() {
+    async function clearToday() {
       localStorage.removeItem(`${storePrefix}:${taskKey()}`);
       localStorage.removeItem(`${storePrefix}:wrong:${todayKey}`);
       localStorage.removeItem(`${storePrefix}:focus:${todayKey}`);
@@ -1712,6 +2013,12 @@
       renderTasks();
       renderWrong();
       renderStats();
+      try {
+        await markTodayWrongUploadsUncounted();
+        renderWrongUploads();
+      } catch (error) {
+        wrongUploadHint.textContent = "今日数据已清空，上传记录状态同步失败。";
+      }
     }
 
     function init() {
@@ -1729,6 +2036,7 @@
       renderPresets();
       renderTimer();
       renderScores();
+      renderWrongUploads();
       renderStats();
     }
 
