@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>考研复习全年计划</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --panel-soft: #f1f5f9;
+      --text: #172033;
+      --muted: #64748b;
+      --line: #dfe4ea;
+      --blue: #2563eb;
+      --blue-soft: #dbeafe;
+      --green: #0f9f7a;
+      --green-soft: #dff7ef;
+      --amber: #c47a10;
+      --amber-soft: #fff2d8;
+      --red: #c44524;
+      --red-soft: #fde9e1;
+      --pink: #b62b61;
+      --pink-soft: #fde7ef;
+      --purple: #6f5bdc;
+      --purple-soft: #eeedff;
+      --control-bg: #ffffff;
+      --control-text: #172033;
+      --bg-image: none;
+      --bg-overlay: rgba(247, 248, 250, 0.88);
+      --panel-glass: rgba(255, 255, 255, 0.86);
+      --shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+      --radius: 8px;
+    }
+
+    body[data-theme="forest"] {
+      --bg: #eef7f1;
+      --panel-soft: #e7f1ea;
+      --blue: #256f5b;
+      --blue-soft: #dff1e8;
+      --green: #14825f;
+      --green-soft: #dff7ec;
+      --amber: #a16207;
+      --amber-soft: #fff4d6;
+      --red: #b9462f;
+      --red-soft: #fde8df;
+      --pink: #a63b68;
+      --pink-soft: #f8e2ec;
+      --purple: #64748b;
+      --purple-soft: #e8edf3;
+      --bg-overlay: rgba(238, 247, 241, 0.88);
+    }
+
+    body[data-theme="sunrise"] {
+      --bg: #fff8ee;
+      --panel-soft: #f8efe2;
+      --blue: #b85f12;
+      --blue-soft: #ffedd5;
+      --green: #177e72;
+      --green-soft: #dff7f0;
+      --amber: #c46a0a;
+      --amber-soft: #fff0cf;
+      --red: #c24135;
+      --red-soft: #fde7df;
+      --pink: #b03060;
+      --pink-soft: #fbe2ec;
+      --purple: #7856b8;
+      --purple-soft: #efe8fb;
+      --bg-overlay: rgba(255, 248, 238, 0.88);
+    }
+
+    body[data-theme="ocean"] {
+      --bg: #eef8fb;
+      --panel-soft: #e6f2f6;
+      --blue: #0b78b6;
+      --blue-soft: #d8f0ff;
+      --green: #088072;
+      --green-soft: #d8f4ee;
+      --amber: #a56b0b;
+      --amber-soft: #fff1d0;
+      --red: #bb3e31;
+      --red-soft: #fde5df;
+      --pink: #9d3472;
+      --pink-soft: #f8e1ef;
+      --purple: #4f64b5;
+      --purple-soft: #e6ebff;
+      --bg-overlay: rgba(238, 248, 251, 0.88);
+    }
+
+    body[data-theme="berry"] {
+      --bg: #fbf4f8;
+      --panel-soft: #f5eaf1;
+      --blue: #8b3fb2;
+      --blue-soft: #f1e1fb;
+      --green: #237a69;
+      --green-soft: #dff4ef;
+      --amber: #9d6a08;
+      --amber-soft: #fff0cc;
+      --red: #b73a48;
+      --red-soft: #fde2e7;
+      --pink: #b72f71;
+      --pink-soft: #fbe0ee;
+      --purple: #7c3fb0;
+      --purple-soft: #f1e5fb;
+      --bg-overlay: rgba(251, 244, 248, 0.88);
+    }
+
+    body[data-theme="mint"] {
+      --bg: #f0faf8;
+      --panel-soft: #e4f3f0;
+      --blue: #167a95;
+      --blue-soft: #d9f0f6;
+      --green: #0d8b78;
+      --green-soft: #d9f6ef;
+      --amber: #9c740c;
+      --amber-soft: #fff5cf;
+      --red: #b64a35;
+      --red-soft: #fde8df;
+      --pink: #9c3a73;
+      --pink-soft: #f7e2ef;
+      --purple: #5f64b8;
+      --purple-soft: #e9ebff;
+      --bg-overlay: rgba(240, 250, 248, 0.88);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--bg);
+      background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), var(--bg-image);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.55;
+    }
+
+    body.has-bg .panel,
+    body.has-bg .appearance-panel {
+      background: var(--panel-glass);
+      backdrop-filter: blur(14px);
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .page {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px 24px 52px;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .title-wrap {
+      min-width: 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: 0;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--control-bg);
+      color: #334155;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      line-height: 1;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-1px);
+      border-color: #cbd5e1;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .appearance-panel {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 12px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+    }
+
+    .appearance-title {
+      color: #334155;
+      font-weight: 800;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .theme-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .theme-swatch {
+      width: 34px;
+      height: 34px;
+      border: 2px solid transparent;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.14);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .theme-swatch:hover {
+      transform: translateY(-1px);
+    }
+
+    .theme-swatch.active {
+      border-color: var(--blue);
+    }
+
+    .upload-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border-radius: 6px;
+      padding: 0 14px;
+      background: #eef2f7;
+      color: #334155;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .upload-btn input {
+      display: none;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 174px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      color: #334155;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .countdown {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .days {
+      font-size: 52px;
+      line-height: 0.9;
+      font-weight: 800;
+      color: var(--blue);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .unit {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .date-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .date-row input,
+    .task-form input,
+    .task-form select,
+    .score-form input,
+    .score-form select,
+    .timer-select,
+    .custom-timer input {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: var(--control-bg);
+      color: var(--control-text);
+      padding: 9px 10px;
+      min-height: 40px;
+    }
+
+    .primary-btn,
+    .ghost-btn,
+    .danger-btn {
+      min-height: 40px;
+      border-radius: 6px;
+      padding: 0 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .primary-btn {
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .ghost-btn {
+      background: #eef2f7;
+      color: #334155;
+    }
+
+    .danger-btn {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .current-stage {
+      display: grid;
+      gap: 10px;
+    }
+
+    .stage-pill {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .stage-summary {
+      margin: 0;
+      color: #475569;
+      font-size: 15px;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .mini-stat {
+      background: var(--panel-soft);
+      border-radius: 6px;
+      padding: 9px;
+      min-height: 56px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .mini-stat span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .timer {
+      display: grid;
+      gap: 12px;
+    }
+
+    .timer-face {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .timer-time {
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-controls,
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .custom-timer {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+    }
+
+    .preset-btn {
+      min-height: 32px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #eef2f7;
+      color: #334155;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .preset-btn.active {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .timeline {
+      margin: 16px 0 24px;
+    }
+
+    .bar {
+      height: 9px;
+      border-radius: 999px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 20% 33% 27% 15% 5%;
+      background: #e5e7eb;
+    }
+
+    .seg:nth-child(1) { background: #a7a3f4; }
+    .seg:nth-child(2) { background: #5ccdad; }
+    .seg:nth-child(3) { background: #f4a021; }
+    .seg:nth-child(4) { background: #df5831; }
+    .seg:nth-child(5) { background: #d94b7b; }
+
+    .months {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 390px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .stage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .stage {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .stage.active {
+      border-color: var(--blue);
+      box-shadow: var(--shadow);
+    }
+
+    .stage:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    .stage-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .stage-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .stage-name {
+      font-size: 21px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .tag {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .today-badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .date {
+      color: #334155;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    .detail {
+      display: none;
+      padding-top: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .stage.active .detail {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .desc {
+      margin: 0 0 18px;
+      color: #475569;
+      font-size: 16px;
+    }
+
+    .section-title {
+      margin: 16px 0 10px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #334155;
+    }
+
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .subject-card {
+      background: #f6f3ec;
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 104px;
+    }
+
+    .subject-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .subject-card span {
+      color: #475569;
+      font-size: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    th,
+    td {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #334155;
+      font-weight: 800;
+    }
+
+    td:first-child,
+    th:first-child {
+      width: 38%;
+      color: #334155;
+    }
+
+    .tip {
+      margin-top: 18px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .progress-line {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e2e8f0;
+      margin: 6px 0 12px;
+    }
+
+    .progress-line span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--green);
+      border-radius: inherit;
+      transition: width 0.2s ease;
+    }
+
+    .task-form {
+      display: grid;
+      grid-template-columns: 104px minmax(0, 1fr) auto;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .task-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: #ffffff;
+    }
+
+    .task-item input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--green);
+    }
+
+    .task-text {
+      min-width: 0;
+    }
+
+    .task-text strong {
+      display: inline-block;
+      margin-right: 6px;
+      font-size: 13px;
+      color: var(--blue);
+    }
+
+    .task-text span {
+      color: #334155;
+      word-break: break-word;
+    }
+
+    .task-item.done span {
+      color: #94a3b8;
+      text-decoration: line-through;
+    }
+
+    .small-delete {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: #64748b;
+      background: #f1f5f9;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .wrong-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .wrong-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .wrong-card strong {
+      font-size: 14px;
+      color: #334155;
+    }
+
+    .wrong-count {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .wrong-count span {
+      font-size: 25px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .score-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .score-form .full {
+      grid-column: 1 / -1;
+    }
+
+    .score-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+      max-height: 260px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .score-item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 10px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .score-main {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 800;
+    }
+
+    .score-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 8px 0;
+    }
+
+    .floating {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 50px;
+      border: 1px solid #e2e8f0;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 28px;
+      color: #475569;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .floating:hover {
+      transform: translateX(-50%) translateY(-3px);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+    }
+
+    .purple { background: #a7a3f4; }
+    .green { background: #5ccdad; }
+    .orange { background: #f4a021; }
+    .red { background: #df5831; }
+    .pink { background: #d94b7b; }
+
+    .tag-purple { background: var(--purple-soft); color: var(--purple); }
+    .tag-green { background: var(--green-soft); color: var(--green); }
+    .tag-orange { background: var(--amber-soft); color: var(--amber); }
+    .tag-red { background: var(--red-soft); color: var(--red); }
+    .tag-pink { background: var(--pink-soft); color: var(--pink); }
+
+    @media (max-width: 1060px) {
+      .dashboard,
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .dashboard .timer-panel {
+        grid-column: 1 / -1;
+      }
+
+      .subject-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding: 22px 14px 42px;
+      }
+
+      .header {
+        grid-template-columns: 1fr;
+      }
+
+      .header-actions {
+        justify-content: flex-start;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .appearance-panel {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+      }
+
+      .stage {
+        padding: 18px;
+      }
+
+      .stage-top {
+        align-items: flex-start;
+      }
+
+      .stage-left {
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .stage-name {
+        font-size: 19px;
+      }
+
+      .date {
+        font-size: 14px;
+      }
+
+      .subject-grid,
+      .wrong-grid,
+      .score-form,
+      .mini-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .task-form {
+        grid-template-columns: 1fr;
+      }
+
+      td:first-child,
+      th:first-child {
+        width: 40%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div class="title-wrap">
+        <h1>考研复习全年计划</h1>
+        <p class="subtitle">阶段计划、每日执行、专注记录、模考复盘</p>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" title="展开或收起全部阶段" onclick="toggleAll()">•••</button>
+        <button class="icon-btn" title="清空今日数据" onclick="clearToday()">↺</button>
+      </div>
+    </header>
+
+    <section class="appearance-panel" aria-label="外观设置">
+      <span class="appearance-title">主题配色</span>
+      <div class="theme-options" id="themeOptions"></div>
+      <label class="upload-btn" title="上传图片作为页面背景">
+        上传背景
+        <input type="file" id="bgUpload" accept="image/*" onchange="uploadBackground(event)" />
+      </label>
+      <button class="ghost-btn" onclick="clearBackground()">清除背景</button>
+    </section>
+
+    <section class="dashboard" aria-label="复习看板">
+      <article class="panel metric">
+        <div class="panel-title">考试倒计时</div>
+        <div class="countdown">
+          <span class="days" id="daysLeft">0</span>
+          <span class="unit" id="daysUnit">天</span>
+        </div>
+        <div class="date-row">
+          <input type="date" id="examDate" />
+          <button class="primary-btn" onclick="saveExamDate()">保存</button>
+        </div>
+      </article>
+
+      <article class="panel metric">
+        <div class="panel-title">当前阶段</div>
+        <div class="current-stage">
+          <span class="stage-pill" id="currentStagePill"></span>
+          <p class="stage-summary" id="currentStageSummary"></p>
+        </div>
+        <div class="mini-stats">
+          <div class="mini-stat">
+            <strong id="todayDone">0</strong>
+            <span>今日完成</span>
+          </div>
+          <div class="mini-stat">
+            <strong id="todayFocus">0</strong>
+            <span>专注分钟</span>
+          </div>
+          <div class="mini-stat">
+            <strong id="latestScore">--</strong>
+            <span>最近模考</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel timer-panel">
+        <div class="panel-title">专注计时</div>
+        <div class="timer">
+          <select class="timer-select" id="timerSubject" onchange="saveTimerSubject()">
+            <option>数学</option>
+            <option>英语</option>
+            <option>政治</option>
+            <option>专业课</option>
+          </select>
+          <div class="preset-row" id="presetRow"></div>
+          <div class="custom-timer">
+            <input type="number" id="customMinutes" min="1" max="300" placeholder="自定义分钟数" />
+            <button class="ghost-btn" onclick="setCustomPreset()">设置时长</button>
+          </div>
+          <div class="timer-face">
+            <span class="timer-time" id="timerTime">50:00</span>
+            <button class="ghost-btn" onclick="finishFocus()">完成一轮</button>
+          </div>
+          <div class="timer-controls">
+            <button class="primary-btn" id="startPauseBtn" onclick="toggleTimer()">开始</button>
+            <button class="ghost-btn" onclick="resetTimer()">重置</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="timeline" aria-label="全年复习时间轴">
+      <div class="bar">
+        <div class="seg"></div>
+        <div class="seg"></div>
+        <div class="seg"></div>
+        <div class="seg"></div>
+        <div class="seg"></div>
+      </div>
+      <div class="months">
+        <span>3月</span>
+        <span>5月</span>
+        <span>7月</span>
+        <span>9月</span>
+        <span>11月</span>
+        <span>12月</span>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <section class="stage-list" id="stageList" aria-label="阶段计划"></section>
+
+      <aside class="side-stack">
+        <article class="panel">
+          <div class="panel-title">
+            <span>今日清单</span>
+            <span id="taskPercent">0%</span>
+          </div>
+          <div class="progress-line"><span id="taskProgress"></span></div>
+          <div class="task-form">
+            <select id="taskSubject">
+              <option>数学</option>
+              <option>英语</option>
+              <option>政治</option>
+              <option>专业课</option>
+            </select>
+            <input id="taskInput" type="text" placeholder="新增任务" />
+            <button class="primary-btn" onclick="addTask()">添加</button>
+          </div>
+          <div class="task-list" id="taskList"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <span>错题统计</span>
+            <button class="ghost-btn" onclick="resetWrong()">清零</button>
+          </div>
+          <div class="wrong-grid" id="wrongGrid"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">模考记录</div>
+          <div class="score-form">
+            <input type="date" id="scoreDate" />
+            <select id="scoreType">
+              <option>全科模拟</option>
+              <option>数学套卷</option>
+              <option>英语套卷</option>
+              <option>政治套卷</option>
+              <option>专业课套卷</option>
+            </select>
+            <input type="number" id="scoreMath" min="0" placeholder="数学" />
+            <input type="number" id="scoreEnglish" min="0" placeholder="英语" />
+            <input type="number" id="scorePolitics" min="0" placeholder="政治" />
+            <input type="number" id="scoreMajor" min="0" placeholder="专业课" />
+            <button class="primary-btn full" onclick="saveScore()">保存记录</button>
+          </div>
+          <div class="score-list" id="scoreList"></div>
+        </article>
+      </aside>
+    </section>
+  </main>
+
+  <button class="floating" title="跳到下一阶段" onclick="nextStage()">↓</button>
+
+  <script>
+    const stages = [
+      {
+        name: "基础阶段",
+        tag: "夯实基础",
+        date: "3月 — 6月",
+        startMonth: 3,
+        endMonth: 6,
+        color: "purple",
+        tagColor: "tag-purple",
+        desc: "建立知识框架，逐科过一遍教材，重在理解和搭建长期复习节奏。",
+        subjects: [
+          ["数学", "全书精讲精练，线代高数每章例题手推一遍"],
+          ["英语", "每日30个单词，长难句分析，基础阅读篇章"],
+          ["政治", "暂不开启，等7月后"],
+          ["专业课", "教材精读，画重点，整理框架笔记"]
+        ],
+        schedule: [
+          ["7:00 — 9:00", "数学（2h）"],
+          ["9:00 — 11:30", "专业课（2.5h）"],
+          ["14:00 — 16:00", "英语（2h）"],
+          ["16:00 — 18:00", "数学/专业课（2h）"],
+          ["19:00 — 21:00", "英语单词 + 复习（2h）"]
+        ],
+        tasks: [
+          ["数学", "完成一节概念梳理和例题手推"],
+          ["英语", "背单词30个并复盘昨日词汇"],
+          ["专业课", "精读教材并补充框架笔记"]
+        ],
+        tip: "此阶段以理解概念为主，每周固定回顾一次笔记。"
+      },
+      {
+        name: "强化阶段",
+        tag: "攻克难点",
+        date: "7月 — 9月",
+        startMonth: 7,
+        endMonth: 9,
+        color: "green",
+        tagColor: "tag-green",
+        desc: "进入高强度训练，把基础知识转化为做题能力，重点突破薄弱章节。",
+        subjects: [
+          ["数学", "强化讲义 + 题型归纳，建立常考题解题套路"],
+          ["英语", "阅读真题精读，分析题干、选项和定位句"],
+          ["政治", "开始基础课，选择题为主，暂不背大题"],
+          ["专业课", "第二轮复习，结合真题整理高频考点"]
+        ],
+        schedule: [
+          ["7:00 — 10:00", "数学强化题（3h）"],
+          ["10:15 — 12:00", "专业课重点章节（1.75h）"],
+          ["14:00 — 16:00", "英语阅读精读（2h）"],
+          ["16:20 — 18:00", "政治选择题/专业课（1.5h）"],
+          ["19:00 — 21:30", "数学错题整理 + 复盘（2.5h）"]
+        ],
+        tasks: [
+          ["数学", "整理1类题型的通用解法"],
+          ["英语", "精读1篇真题阅读并复盘错因"],
+          ["政治", "完成一组选择题"],
+          ["专业课", "归纳1个高频考点"]
+        ],
+        tip: "开始建立错题本，错题复盘优先级高于盲目加题量。"
+      },
+      {
+        name: "冲刺阶段",
+        tag: "全科提升",
+        date: "10月 — 11月中",
+        startMonth: 10,
+        endMonth: 11,
+        color: "orange",
+        tagColor: "tag-orange",
+        desc: "真题和套卷训练为主，形成考试节奏，开始压缩答题时间。",
+        subjects: [
+          ["数学", "按年份刷真题，整理近10年高频题型"],
+          ["英语", "阅读二刷，作文模板初步成型"],
+          ["政治", "选择题大量训练，开始整理大题框架"],
+          ["专业课", "真题反复做，背诵重点概念和简答题"]
+        ],
+        schedule: [
+          ["上午", "数学或专业课真题套卷（3h）"],
+          ["下午", "英语真题 + 作文整理（3h）"],
+          ["晚上", "政治选择题 + 错题复盘（2h）"]
+        ],
+        tasks: [
+          ["数学", "限时完成一组真题题型"],
+          ["英语", "二刷1篇阅读并整理作文表达"],
+          ["政治", "完成选择题训练并统计错因"],
+          ["专业课", "背诵一组核心简答题"]
+        ],
+        tip: "做真题时要限时完成，复盘时再查资料和看解析。"
+      },
+      {
+        name: "模考冲关",
+        tag: "查缺补漏",
+        date: "11月中 — 12月初",
+        startMonth: 11,
+        endMonth: 12,
+        color: "red",
+        tagColor: "tag-red",
+        desc: "全真模拟考试，适应考场状态，精简复习重点，保持手感。",
+        subjects: [
+          ["数学", "近3年真题再刷，公式口诀熟背"],
+          ["英语", "作文背诵模板，巩固阅读技巧"],
+          ["政治", "押题卷精读，重点大题背诵"],
+          ["专业课", "重要答题框架整理成手写卡片"]
+        ],
+        schedule: [
+          ["上午", "专业课或数学全卷模拟（3h）"],
+          ["下午", "英语真题模拟（3h）"],
+          ["晚上", "政治选择题 + 错题整理（2h）"]
+        ],
+        tasks: [
+          ["数学", "复盘近3年真题中的薄弱题型"],
+          ["英语", "背诵作文模板并计时写1段"],
+          ["政治", "背诵一组主观题材料"],
+          ["专业课", "默写一套答题框架"]
+        ],
+        tip: "以复习巩固为主，避免临时开新坑，保证睡眠。"
+      },
+      {
+        name: "考前准备",
+        tag: "稳定心态",
+        date: "12月中旬 — 考试",
+        startMonth: 12,
+        endMonth: 12,
+        color: "pink",
+        tagColor: "tag-pink",
+        desc: "回归基础，稳定节奏，背诵政治和专业课重点，保持考试手感。",
+        subjects: [
+          ["数学", "只看错题和公式，不再大量做新题"],
+          ["英语", "每天背作文，保持阅读语感"],
+          ["政治", "背重点大题，复盘选择题错题"],
+          ["专业课", "背核心概念、常考简答题和答题模板"]
+        ],
+        schedule: [
+          ["上午", "数学/专业课重点回顾（3h）"],
+          ["下午", "英语作文 + 阅读保持手感（2h）"],
+          ["晚上", "政治大题背诵 + 专业课速记（2h）"]
+        ],
+        tasks: [
+          ["数学", "回看错题和公式清单"],
+          ["英语", "背作文并保持阅读手感"],
+          ["政治", "背诵重点主观题"],
+          ["专业课", "速记核心概念和模板"]
+        ],
+        tip: "考前保持稳定状态，比临时加量更重要。"
+      }
+    ];
+
+    const subjects = ["数学", "英语", "政治", "专业课"];
+    const themes = [
+      { id: "default", name: "清朗", swatch: "linear-gradient(135deg, #2563eb 0 34%, #0f9f7a 34% 68%, #c47a10 68%)" },
+      { id: "forest", name: "竹青", swatch: "linear-gradient(135deg, #256f5b 0 34%, #14825f 34% 68%, #a16207 68%)" },
+      { id: "sunrise", name: "暖阳", swatch: "linear-gradient(135deg, #b85f12 0 34%, #177e72 34% 68%, #7856b8 68%)" },
+      { id: "ocean", name: "海蓝", swatch: "linear-gradient(135deg, #0b78b6 0 34%, #088072 34% 68%, #4f64b5 68%)" },
+      { id: "berry", name: "莓果", swatch: "linear-gradient(135deg, #8b3fb2 0 34%, #237a69 34% 68%, #b73a48 68%)" },
+      { id: "mint", name: "薄荷", swatch: "linear-gradient(135deg, #167a95 0 34%, #0d8b78 34% 68%, #9c740c 68%)" }
+    ];
+    const timerPresets = [
+      { label: "25", minutes: 25 },
+      { label: "50", minutes: 50 },
+      { label: "90", minutes: 90 }
+    ];
+
+    function formatLocalDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    const todayKey = formatLocalDate(new Date());
+    const storePrefix = "kaoyan-plan-v1";
+    const defaultExamDate = "2026-12-19";
+
+    const stageList = document.getElementById("stageList");
+    const taskList = document.getElementById("taskList");
+    const taskInput = document.getElementById("taskInput");
+    const taskSubject = document.getElementById("taskSubject");
+    const wrongGrid = document.getElementById("wrongGrid");
+    const scoreList = document.getElementById("scoreList");
+    const examDateInput = document.getElementById("examDate");
+    const presetRow = document.getElementById("presetRow");
+    const timerTime = document.getElementById("timerTime");
+    const startPauseBtn = document.getElementById("startPauseBtn");
+    const timerSubject = document.getElementById("timerSubject");
+    const customMinutes = document.getElementById("customMinutes");
+    const themeOptions = document.getElementById("themeOptions");
+
+    const dateStageIndex = getStageByDate();
+    let selectedStageIndex = dateStageIndex;
+    let activePreset = Number(localStorage.getItem(`${storePrefix}:timerPreset`) || 50);
+    if (!Number.isFinite(activePreset) || activePreset < 1) activePreset = 50;
+    activePreset = Math.min(300, Math.round(activePreset));
+    let timerSeconds = activePreset * 60;
+    let timerRunning = false;
+    let timerHandle = null;
+    let focusStartedSeconds = timerSeconds;
+
+    function getStorage(key, fallback) {
+      try {
+        return JSON.parse(localStorage.getItem(`${storePrefix}:${key}`)) ?? fallback;
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function setStorage(key, value) {
+      localStorage.setItem(`${storePrefix}:${key}`, JSON.stringify(value));
+    }
+
+    function renderThemeOptions() {
+      const activeTheme = localStorage.getItem(`${storePrefix}:theme`) || "default";
+      themeOptions.innerHTML = themes.map(theme => `
+        <button
+          class="theme-swatch ${theme.id === activeTheme ? "active" : ""}"
+          style="background: ${theme.swatch}"
+          title="${theme.name}"
+          aria-label="${theme.name}"
+          onclick="applyTheme('${theme.id}')"
+        ></button>
+      `).join("");
+    }
+
+    function applyTheme(themeId) {
+      const nextTheme = themes.some(theme => theme.id === themeId) ? themeId : "default";
+      document.body.dataset.theme = nextTheme;
+      localStorage.setItem(`${storePrefix}:theme`, nextTheme);
+      renderThemeOptions();
+    }
+
+    function applyBackground(imageData) {
+      const hasImage = Boolean(imageData);
+      document.documentElement.style.setProperty("--bg-image", hasImage ? `url("${imageData}")` : "none");
+      document.body.classList.toggle("has-bg", hasImage);
+    }
+
+    function uploadBackground(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imageData = reader.result;
+        try {
+          localStorage.setItem(`${storePrefix}:background`, imageData);
+          applyBackground(imageData);
+        } catch (error) {
+          alert("图片较大，浏览器本地存储空间不够。可以换一张更小的图片。");
+        }
+      };
+      reader.readAsDataURL(file);
+      event.target.value = "";
+    }
+
+    function clearBackground() {
+      localStorage.removeItem(`${storePrefix}:background`);
+      applyBackground("");
+    }
+
+    function getStageByDate() {
+      const now = new Date();
+      const month = now.getMonth() + 1;
+      const day = now.getDate();
+      if (month >= 3 && month <= 6) return 0;
+      if (month >= 7 && month <= 9) return 1;
+      if (month === 10 || (month === 11 && day < 15)) return 2;
+      if ((month === 11 && day >= 15) || (month === 12 && day < 10)) return 3;
+      if (month === 12) return 4;
+      return 0;
+    }
+
+    function renderStages() {
+      stageList.innerHTML = stages.map((stage, index) => `
+        <article class="stage ${index === selectedStageIndex ? "active" : ""}" onclick="openStage(${index})">
+          <div class="stage-top">
+            <div class="stage-left">
+              <span class="dot ${stage.color}"></span>
+              <span class="stage-name">${stage.name}</span>
+              <span class="tag ${stage.tagColor}">${stage.tag}</span>
+              ${index === dateStageIndex ? `<span class="today-badge">今日阶段</span>` : ""}
+            </div>
+            <span class="date">${stage.date}</span>
+          </div>
+
+          <div class="detail">
+            <p class="desc">${stage.desc}</p>
+
+            <div class="section-title">各科重点</div>
+            <div class="subject-grid">
+              ${stage.subjects.map(item => `
+                <div class="subject-card">
+                  <strong>${item[0]}</strong>
+                  <span>${item[1]}</span>
+                </div>
+              `).join("")}
+            </div>
+
+            <div class="section-title">每日时间分配</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>时段</th>
+                  <th>内容</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${stage.schedule.map(row => `
+                  <tr>
+                    <td>${row[0]}</td>
+                    <td>${row[1]}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+
+            <div class="tip">${stage.tip}</div>
+          </div>
+        </article>
+      `).join("");
+
+      renderCurrentStage();
+    }
+
+    function openStage(index) {
+      selectedStageIndex = index;
+      renderStages();
+      document.querySelectorAll(".stage")[index].scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function nextStage() {
+      selectedStageIndex = (selectedStageIndex + 1) % stages.length;
+      renderStages();
+      document.querySelectorAll(".stage")[selectedStageIndex].scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function toggleAll() {
+      const cards = document.querySelectorAll(".stage");
+      const allOpen = [...cards].every(card => card.classList.contains("active"));
+      cards.forEach(card => card.classList.toggle("active", !allOpen));
+    }
+
+    function renderCurrentStage() {
+      const stage = stages[dateStageIndex];
+      const pill = document.getElementById("currentStagePill");
+      pill.className = `stage-pill ${stage.tagColor}`;
+      pill.innerHTML = `<span class="dot ${stage.color}"></span>${stage.name} · ${stage.tag}`;
+      document.getElementById("currentStageSummary").textContent = `${stage.date}：${stage.desc}`;
+    }
+
+    function saveExamDate() {
+      localStorage.setItem(`${storePrefix}:examDate`, examDateInput.value || defaultExamDate);
+      renderCountdown();
+    }
+
+    function renderCountdown() {
+      const savedDate = localStorage.getItem(`${storePrefix}:examDate`) || defaultExamDate;
+      examDateInput.value = savedDate;
+      const target = new Date(`${savedDate}T00:00:00`);
+      const now = new Date();
+      const diff = Math.ceil((target - now) / 86400000);
+      document.getElementById("daysLeft").textContent = Math.max(diff, 0);
+      document.getElementById("daysUnit").textContent = diff >= 0 ? "天" : "已结束";
+    }
+
+    function taskKey() {
+      return `tasks:${todayKey}`;
+    }
+
+    function ensureDailyTasks() {
+      const existing = getStorage(taskKey(), null);
+      if (existing) return;
+      const tasks = stages[dateStageIndex].tasks.map((item, index) => ({
+        id: `${todayKey}-${index}-${Date.now()}`,
+        subject: item[0],
+        text: item[1],
+        done: false
+      }));
+      setStorage(taskKey(), tasks);
+    }
+
+    function getTasks() {
+      ensureDailyTasks();
+      return getStorage(taskKey(), []);
+    }
+
+    function setTasks(tasks) {
+      setStorage(taskKey(), tasks);
+      renderTasks();
+      renderStats();
+    }
+
+    function addTask() {
+      const text = taskInput.value.trim();
+      if (!text) return;
+      const tasks = getTasks();
+      tasks.push({
+        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        subject: taskSubject.value,
+        text,
+        done: false
+      });
+      taskInput.value = "";
+      setTasks(tasks);
+    }
+
+    function toggleTask(id) {
+      const tasks = getTasks().map(task => task.id === id ? { ...task, done: !task.done } : task);
+      setTasks(tasks);
+    }
+
+    function deleteTask(id) {
+      setTasks(getTasks().filter(task => task.id !== id));
+    }
+
+    function renderTasks() {
+      const tasks = getTasks();
+      if (!tasks.length) {
+        taskList.innerHTML = `<div class="empty">暂无任务</div>`;
+      } else {
+        taskList.innerHTML = tasks.map(task => `
+          <label class="task-item ${task.done ? "done" : ""}">
+            <input type="checkbox" ${task.done ? "checked" : ""} onchange="toggleTask('${task.id}')" />
+            <span class="task-text">
+              <strong>${task.subject}</strong>
+              <span>${task.text}</span>
+            </span>
+            <button class="small-delete" type="button" title="删除任务" onclick="event.preventDefault(); deleteTask('${task.id}')">×</button>
+          </label>
+        `).join("");
+      }
+
+      const done = tasks.filter(task => task.done).length;
+      const percent = tasks.length ? Math.round(done / tasks.length * 100) : 0;
+      document.getElementById("taskProgress").style.width = `${percent}%`;
+      document.getElementById("taskPercent").textContent = `${percent}%`;
+      renderStats();
+    }
+
+    function renderWrong() {
+      const wrong = getStorage(`wrong:${todayKey}`, Object.fromEntries(subjects.map(subject => [subject, 0])));
+      wrongGrid.innerHTML = subjects.map(subject => `
+        <div class="wrong-card">
+          <strong>${subject}</strong>
+          <div class="wrong-count">
+            <span>${wrong[subject] || 0}</span>
+            <button class="ghost-btn" onclick="addWrong('${subject}')">+1</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function addWrong(subject) {
+      const wrong = getStorage(`wrong:${todayKey}`, Object.fromEntries(subjects.map(item => [item, 0])));
+      wrong[subject] = (wrong[subject] || 0) + 1;
+      setStorage(`wrong:${todayKey}`, wrong);
+      renderWrong();
+    }
+
+    function resetWrong() {
+      setStorage(`wrong:${todayKey}`, Object.fromEntries(subjects.map(subject => [subject, 0])));
+      renderWrong();
+    }
+
+    function renderPresets() {
+      presetRow.innerHTML = timerPresets.map(preset => `
+        <button class="preset-btn ${preset.minutes === activePreset ? "active" : ""}" onclick="setPreset(${preset.minutes})">${preset.label}分钟</button>
+      `).join("");
+      customMinutes.value = timerPresets.some(preset => preset.minutes === activePreset) ? "" : activePreset;
+    }
+
+    function setPreset(minutes) {
+      setTimerDuration(minutes);
+    }
+
+    function setCustomPreset() {
+      const minutes = Math.round(Number(customMinutes.value));
+      if (!Number.isFinite(minutes) || minutes < 1) return;
+      setTimerDuration(Math.min(minutes, 300));
+    }
+
+    function setTimerDuration(minutes) {
+      activePreset = minutes;
+      localStorage.setItem(`${storePrefix}:timerPreset`, activePreset);
+      timerRunning = false;
+      clearInterval(timerHandle);
+      timerSeconds = activePreset * 60;
+      focusStartedSeconds = timerSeconds;
+      startPauseBtn.textContent = "开始";
+      renderPresets();
+      renderTimer();
+    }
+
+    function renderTimer() {
+      const minutes = Math.floor(timerSeconds / 60).toString().padStart(2, "0");
+      const seconds = (timerSeconds % 60).toString().padStart(2, "0");
+      timerTime.textContent = `${minutes}:${seconds}`;
+    }
+
+    function toggleTimer() {
+      timerRunning = !timerRunning;
+      startPauseBtn.textContent = timerRunning ? "暂停" : "开始";
+      clearInterval(timerHandle);
+      if (!timerRunning) return;
+      timerHandle = setInterval(() => {
+        timerSeconds -= 1;
+        if (timerSeconds <= 0) {
+          finishFocus();
+          return;
+        }
+        renderTimer();
+      }, 1000);
+    }
+
+    function resetTimer() {
+      timerRunning = false;
+      clearInterval(timerHandle);
+      timerSeconds = activePreset * 60;
+      focusStartedSeconds = timerSeconds;
+      startPauseBtn.textContent = "开始";
+      renderTimer();
+    }
+
+    function finishFocus() {
+      const elapsed = Math.round((focusStartedSeconds - timerSeconds) / 60);
+      const spent = elapsed > 0 ? elapsed : activePreset;
+      const focus = getStorage(`focus:${todayKey}`, Object.fromEntries(subjects.map(subject => [subject, 0])));
+      focus[timerSubject.value] = (focus[timerSubject.value] || 0) + spent;
+      setStorage(`focus:${todayKey}`, focus);
+      resetTimer();
+      renderStats();
+    }
+
+    function saveTimerSubject() {
+      localStorage.setItem(`${storePrefix}:timerSubject`, timerSubject.value);
+    }
+
+    function saveScore() {
+      const record = {
+        id: `${Date.now()}`,
+        date: document.getElementById("scoreDate").value || todayKey,
+        type: document.getElementById("scoreType").value,
+        math: Number(document.getElementById("scoreMath").value || 0),
+        english: Number(document.getElementById("scoreEnglish").value || 0),
+        politics: Number(document.getElementById("scorePolitics").value || 0),
+        major: Number(document.getElementById("scoreMajor").value || 0)
+      };
+      record.total = record.math + record.english + record.politics + record.major;
+      const scores = getStorage("scores", []);
+      scores.unshift(record);
+      setStorage("scores", scores.slice(0, 20));
+      ["scoreMath", "scoreEnglish", "scorePolitics", "scoreMajor"].forEach(id => document.getElementById(id).value = "");
+      renderScores();
+      renderStats();
+    }
+
+    function deleteScore(id) {
+      setStorage("scores", getStorage("scores", []).filter(score => score.id !== id));
+      renderScores();
+      renderStats();
+    }
+
+    function renderScores() {
+      const scores = getStorage("scores", []);
+      if (!scores.length) {
+        scoreList.innerHTML = `<div class="empty">暂无记录</div>`;
+        return;
+      }
+      scoreList.innerHTML = scores.map(score => `
+        <div class="score-item">
+          <div class="score-main">
+            <span>${score.date} · ${score.type}</span>
+            <span>${score.total}分</span>
+          </div>
+          <div class="score-meta">
+            数学${score.math} / 英语${score.english} / 政治${score.politics} / 专业课${score.major}
+          </div>
+          <button class="danger-btn" onclick="deleteScore('${score.id}')">删除</button>
+        </div>
+      `).join("");
+    }
+
+    function renderStats() {
+      const tasks = getTasks();
+      const done = tasks.filter(task => task.done).length;
+      const focus = getStorage(`focus:${todayKey}`, {});
+      const focusTotal = Object.values(focus).reduce((sum, value) => sum + Number(value || 0), 0);
+      const scores = getStorage("scores", []);
+      document.getElementById("todayDone").textContent = done;
+      document.getElementById("todayFocus").textContent = focusTotal;
+      document.getElementById("latestScore").textContent = scores[0] ? scores[0].total : "--";
+    }
+
+    function clearToday() {
+      localStorage.removeItem(`${storePrefix}:${taskKey()}`);
+      localStorage.removeItem(`${storePrefix}:wrong:${todayKey}`);
+      localStorage.removeItem(`${storePrefix}:focus:${todayKey}`);
+      ensureDailyTasks();
+      renderTasks();
+      renderWrong();
+      renderStats();
+    }
+
+    function init() {
+      const savedSubject = localStorage.getItem(`${storePrefix}:timerSubject`);
+      if (savedSubject) timerSubject.value = savedSubject;
+      document.body.dataset.theme = localStorage.getItem(`${storePrefix}:theme`) || "default";
+      applyBackground(localStorage.getItem(`${storePrefix}:background`) || "");
+      document.getElementById("scoreDate").value = todayKey;
+      renderThemeOptions();
+      renderCountdown();
+      renderStages();
+      ensureDailyTasks();
+      renderTasks();
+      renderWrong();
+      renderPresets();
+      renderTimer();
+      renderScores();
+      renderStats();
+    }
+
+    taskInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") addTask();
+    });
+
+    customMinutes.addEventListener("keydown", event => {
+      if (event.key === "Enter") setCustomPreset();
+    });
+
+    init();
+  </script>
+</body>
+</html>
